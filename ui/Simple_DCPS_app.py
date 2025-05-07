@@ -1,0 +1,234 @@
+import tkinter as tk
+from tkinter import ttk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+import serial
+
+from instrument.Power_Supply.BK9129B import *
+
+
+class SERIAL_Controller:
+    def __init__(self,
+                 port: str,
+                 baudrate: int = 9600,
+                 timeout: float | None = 0.01,
+                 buffer_size: int = 4096,
+                 debug=False) -> None:
+        """
+        Initializes the UART_Controller class for communicating with SCPI instruments over UART.
+
+        :param port: The serial port (e.g., 'COM3' or '/dev/ttyUSB0').
+        :param baudrate: Baud rate for the UART connection.
+        :param timeout: Read timeout in seconds.
+        :param buffer_size: Size of the buffer for reading responses.
+        """
+        self._connection = serial.Serial(
+            port=port,
+            baudrate=baudrate,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            bytesize=serial.EIGHTBITS,
+            timeout=timeout
+        )
+        self.buffer_size = buffer_size
+        self.debug = debug
+        self._idn = None  # <-- Initialize first!
+
+        idn = self.query("*IDN?")
+        if idn:
+            self._idn = idn
+            if self.debug:
+                print(f"Connected to {idn}.")
+            self.write(command="*RST")
+        else:
+            self.close()
+            if self.debug:
+                print("UART Instrument could not be identified.")
+
+
+    def write(self, command: str) -> None:
+        """
+        Sends a SCPI command to the instrument.
+
+        :param command: SCPI command string.
+        """
+        command += "\n"  # Add termination
+        self._connection.write(command.encode())
+
+    def query(self, command: str) -> str:
+        self.write(command)
+        recv_bytes = b""
+        start_time = time.time()
+        timeout_duration = 2  # seconds
+
+        while True:
+            recv_bytes += self._connection.read(self.buffer_size)
+            if recv_bytes.endswith(b"\n"):
+                return recv_bytes.decode(errors="ignore").strip()
+            if time.time() - start_time > timeout_duration:
+                # Timeout, no good reply
+                break
+        return ""
+
+    def close(self) -> None:
+        """Closes the UART connection."""
+        self._connection.close()
+
+    @property
+    def idn(self):
+        return self._idn
+
+class SimpleMonitorApp:
+    def __init__(self, root, instr=None):
+        self.root = root
+        self.root.title("DCPS Monitor")
+        self.root.geometry("480x320")
+        self.root.configure(bg="sky blue")
+
+        self.dcps = instr
+        self.dcps.coupling_series()
+
+        self.voltage_var = tk.StringVar(value="0.000 V")
+        self.current_var = tk.StringVar(value="0.000 A")
+
+        self.voltage_set = 0.0
+        self.current_set = 0.0
+
+        self.voltage_data = []
+        self.current_data = []
+        self.time_data = []
+        self.start_time = time.time()
+
+        self.output_enabled = False
+
+        self.build_ui()
+        self.init_plot()
+        self.update_values()
+
+    def build_ui(self):
+        left = tk.Frame(self.root, bg="sky blue")
+        left.pack(side="left", fill="y", padx=5, pady=5)
+
+        right = tk.Frame(self.root, bg="sky blue")
+        right.pack(side="right", fill="both", expand=True, padx=5, pady=5)
+
+        # Voltage/Current Set Controls
+        ttk.Label(left, text="V Set", font=("Arial", 8)).pack()
+        ttk.Button(left, text="▲", width=3, command=self.increase_voltage).pack()
+        ttk.Button(left, text="▼", width=3, command=self.decrease_voltage).pack(pady=(0, 5))
+
+        ttk.Label(left, text="I Set", font=("Arial", 8)).pack()
+        ttk.Button(left, text="▲", width=3, command=self.increase_current).pack()
+        ttk.Button(left, text="▼", width=3, command=self.decrease_current).pack(pady=(0, 5))
+
+        self.output_button = ttk.Button(left, text="Output", command=self.toggle_output)
+        self.output_button.pack(pady=5)
+
+        # Voltage/Current Readings
+        read = tk.Frame(right, bg="sky blue")
+        read.pack(fill="x", pady=2)
+
+        ttk.Label(read, text="Voltage:", font=("Arial", 10)).grid(row=0, column=0, sticky="e", padx=5)
+        ttk.Label(read, textvariable=self.voltage_var, font=("Arial", 10)).grid(row=0, column=1, sticky="w")
+
+        ttk.Label(read, text="Current:", font=("Arial", 10)).grid(row=1, column=0, sticky="e", padx=5)
+        ttk.Label(read, textvariable=self.current_var, font=("Arial", 10)).grid(row=1, column=1, sticky="w")
+
+        self.plot_frame = tk.Frame(right, bg="sky blue")
+        self.plot_frame.pack(fill="both", expand=True)
+
+    def init_plot(self):
+        self.fig = Figure(figsize=(3.5, 1.4), dpi=100)
+        self.ax_voltage = self.fig.add_subplot(121)
+        self.ax_current = self.fig.add_subplot(122)
+
+        self.ax_voltage.set_title("V", fontsize=8)
+        self.ax_current.set_title("I", fontsize=8)
+
+        self.voltage_line, = self.ax_voltage.plot([], [], color="blue")
+        self.current_line, = self.ax_current.plot([], [], color="red")
+
+        self.ax_voltage.grid(True)
+        self.ax_current.grid(True)
+
+        for ax in (self.ax_voltage, self.ax_current):
+            ax.tick_params(axis='both', labelsize=6)
+
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.plot_frame)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().pack(fill="both", expand=True)
+
+    def update_values(self):
+        volt = self.dcps.get_voltage()
+        curr = self.dcps.get_current()
+
+        volt_ch1 = float(volt["CH1"])
+        curr_ch1 = float(curr["CH1"])
+
+        self.voltage_var.set(f"{volt_ch1:.6f} V")
+        self.current_var.set(f"{curr_ch1:.6f} A")
+
+        now = time.time() - self.start_time
+        self.time_data.append(now)
+        self.voltage_data.append(volt_ch1)
+        self.current_data.append(curr_ch1)
+
+        self.time_data = self.time_data[-100:]
+        self.voltage_data = self.voltage_data[-100:]
+        self.current_data = self.current_data[-100:]
+
+        self.voltage_line.set_data(self.time_data, self.voltage_data)
+        self.current_line.set_data(self.time_data, self.current_data)
+
+        if self.voltage_data:
+            v_min, v_max = min(self.voltage_data), max(self.voltage_data)
+            self.ax_voltage.set_ylim(v_min - 1, v_max + 1)
+            self.ax_voltage.set_xlim(self.time_data[0], self.time_data[-1])
+
+        if self.current_data:
+            c_min, c_max = min(self.current_data), max(self.current_data)
+            self.ax_current.set_ylim(c_min - 0.1, c_max + 0.1)
+            self.ax_current.set_xlim(self.time_data[0], self.time_data[-1])
+
+        self.canvas.draw()
+        self.root.after(300, self.update_values)
+
+    def increase_voltage(self):
+        self.voltage_set = min(self.voltage_set + 1, 60.0)
+        self.dcps.set_voltage("CH1", self.voltage_set)
+
+    def decrease_voltage(self):
+        self.voltage_set = max(self.voltage_set - 1, 0.0)
+        self.dcps.set_voltage("CH1", self.voltage_set)
+
+    def increase_current(self):
+        self.current_set = min(self.current_set + 0.1, 6.0)
+        self.dcps.set_current("CH1", self.current_set)
+
+    def decrease_current(self):
+        self.current_set = max(self.current_set - 0.1, 0.0)
+        self.dcps.set_current("CH1", self.current_set)
+
+    def toggle_output(self):
+        self.output_button.config(state="disabled")
+
+        if self.output_enabled:
+            self.dcps.disable_output("CH1")
+        else:
+            self.dcps.enable_output("CH1")
+
+        self.output_enabled = not self.output_enabled
+        self.root.after(1000, lambda: self.output_button.config(state="normal"))
+
+
+if __name__ == "__main__":
+    scanner = PyVISAScanner()
+    scanner.scan_instruments()
+    connect_type, port = scanner.scan_for_instruments(expected_id="9129B")
+
+    instr = BK9129B(visa_port=port, connection_type=connect_type)
+    instr.enable_remote()
+
+    root = tk.Tk()
+    app = SimpleMonitorApp(root, instr=instr)
+    root.mainloop()
