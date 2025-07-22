@@ -11,6 +11,7 @@ class PyVISAScanner:
         self.__resource_store = self.__resource_manager.list_resources()
         self.__hardware_store = []
         self.__scanner_initial()
+        print("Here: ",self.__hardware_store)
 
     def __scanner_initial(self):
         for resource in self.__resource_store:
@@ -86,7 +87,7 @@ class PyVISAScanner:
             "sn": "Unknown",
             "firmware_version": "Unknown",
         }
-        # print(resource_string)
+        print(resource_string)
         if resource_string is not None:
             components = resource_string.split(",")
             if len(components) == 4:
@@ -94,6 +95,11 @@ class PyVISAScanner:
                 dict_name["model"] = components[1]
                 dict_name["sn"] = components[2]
                 dict_name["firmware_version"] = components[3]
+                return dict_name
+            elif len(components) == 3:
+                dict_name["manufacturer"] = components[0]
+                dict_name["model"] = components[1]
+                dict_name["firmware_version"] = components[2]
                 return dict_name
         return dict_name
 
@@ -236,10 +242,15 @@ class PyVISAScanner:
 
 if __name__ == "__main__":
     scanner = PyVISAScanner()
-    # scanner.list_device()
+    scanner.list_device()
     scanner.scan_instruments()
-    # scanner.scan_for_instruments(expected_id="DG1022Z")
+    scanner.scan_for_instruments(expected_id="WPS300S-15005")
+    # For WPS300S-15005 there are a bug on connect and disconnect,
+    # it requires a delay long time to response,
+    # so I increase the time after close the connection to 0.5s
     # scanner.scan_for_instruments(expected_id="SDM3055")
     # scanner.scan_for_instruments(expected_id="DMM6500")
     # scanner.scan_for_instruments(expected_id="SPE6053")
+
+    # scanner.scan_for_instruments(expected_id="SDL1020X")
 

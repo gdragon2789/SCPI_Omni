@@ -17,6 +17,7 @@ class SERIAL_Controller:
         :param timeout: Read timeout in seconds.
         :param buffer_size: Size of the buffer for reading responses.
         """
+
         self._connection = serial.Serial(
             port=port,
             baudrate=baudrate,
@@ -29,7 +30,7 @@ class SERIAL_Controller:
         self.debug = debug
         self._idn = None  # <-- Initialize first!
 
-        idn = self.query("*IDN?")
+        idn = self.query("*IDN?\n")
         if idn:
             self._idn = idn
             if self.debug:
@@ -54,7 +55,7 @@ class SERIAL_Controller:
         self.write(command)
         recv_bytes = b""
         start_time = time.time()
-        timeout_duration = 2  # seconds
+        timeout_duration = 5  # seconds
 
         while True:
             recv_bytes += self._connection.read(self.buffer_size)
@@ -65,9 +66,10 @@ class SERIAL_Controller:
                 break
         return ""
 
-    def close(self) -> None:
+    def close(self, timeout: float = 0.5) -> None:
         """Closes the UART connection."""
         self._connection.close()
+        time.sleep(timeout)
 
     @property
     def idn(self):
