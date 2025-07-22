@@ -113,5 +113,6 @@ if __name__ == '__main__':
     instr = WPS300S(visa_port=port, connection_type=connect_type)
     instr.enable_remote()
     instr.enable_beeper()
+    
     instr.disable_beeper()
     instr.controller.close()
