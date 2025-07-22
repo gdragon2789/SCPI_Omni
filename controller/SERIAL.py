@@ -66,10 +66,11 @@ class SERIAL_Controller:
                 break
         return ""
 
-    def close(self, timeout: float = 0.5) -> None:
+    def close(self,soft_delay=0.5) -> None:
         """Closes the UART connection."""
+
         self._connection.close()
-        time.sleep(timeout)
+        time.sleep(soft_delay)
 
     @property
     def idn(self):

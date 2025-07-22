@@ -57,7 +57,6 @@ class CURRent(Enum):
 class WPS300S(VISA_INSTRUMENT):
     def __init__(self, visa_port=None, connection_type=None):
         super().__init__(visa_port, connection_type)
-        self.soft_delay = 0.3
 
     def device_validator(self,command, result):
         res = self.query(command=command)
