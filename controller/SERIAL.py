@@ -55,7 +55,7 @@ class SERIAL_Controller:
         self.write(command)
         recv_bytes = b""
         start_time = time.time()
-        timeout_duration = 5  # seconds
+        timeout_duration = 2  # seconds
 
         while True:
             recv_bytes += self._connection.read(self.buffer_size)
