@@ -2,7 +2,7 @@
 import time
 from enum import Enum
 from controller.__init__ import *
-
+from api.TimmingProfile import TimingProfile
 
 class DeviceConst(Enum):
     STANDARD_EVENT_STATUS_REGISTER_WEIGHTS = (1, 2, 4, 8, 16, 32, 64, 128)
@@ -13,26 +13,36 @@ class VISA_INSTRUMENT:
         self.visa_port = visa_port
         self.connection_type = connection_type
         self.controller = None
+        self.timing = None
+        self.usb_timing_profile = TimingProfile()
+        self.tcpip_timing_profile = TimingProfile()
+        self.serial_timing_profile = TimingProfile(write_delay=0.5, soft_delay=0.5, query_delay=0.5)
         self.__connect()
 
     def __connect(self):
         if self.connection_type == "USB":
             self.controller = PYVISA_Controller(visa_port=self.visa_port, debug=True)
+            self.timing = self.usb_timing_profile
             self.cc_cls()
         elif self.connection_type == "TCP/IP":
             self.controller = TCPIP_Controller(ip_address=self.visa_port, debug=False)
+            self.timing = self.tcpip_timing_profile
             self.cc_cls()
         elif self.connection_type == "Serial":
             self.controller = SERIAL_Controller(port=self.visa_port, debug=True)
+            self.timing = self.serial_timing_profile
             self.cc_cls()
 
     def write(self, command: str) -> None:
         self.controller.write(command)
+        self.timing.sleep_write()
 
     def query(self, command: str) -> str:
+        self.timing.sleep_query()
         return self.controller.query(command)
 
     def close(self):
+        self.timing.soft_delay()
         self.controller.close()
 
     # IEEE 488.2 Common Commands

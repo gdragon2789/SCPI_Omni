@@ -11,7 +11,7 @@ class PyVISAScanner:
         self.__resource_store = self.__resource_manager.list_resources()
         self.__hardware_store = []
         self.__scanner_initial()
-        print("Here: ",self.__hardware_store)
+        # print("Here: ",self.__hardware_store)
 
     def __scanner_initial(self):
         for resource in self.__resource_store:
@@ -175,7 +175,7 @@ class PyVISAScanner:
                     "connection": device["visa_id"] if "visa_id" in device else device["ip"] if "ip" in device else
                     device["port"]
                 }
-                print(available_instruments)
+                # print(available_instruments)
 
             except pyvisa.VisaIOError as e:
                 print(f"Error on {device}: {e}")
@@ -218,12 +218,14 @@ class PyVISAScanner:
                     available_instruments["instr"] = split_response["model"]
                     available_instruments["connection_type"] = device["connect_type"]
                     available_instruments["connection"] = device["ip"]
+                    instrument.close()
                 elif device["connect_type"] == "Serial":
                     instrument = SERIAL_Controller(port=device["port"])
                     split_response = self.__decompose_instrument_name(instrument.idn)
                     available_instruments["instr"] = split_response["model"]
                     available_instruments["connection_type"] = device["connect_type"]
                     available_instruments["connection"] = device["port"]
+                    instrument.close()
 
                 for item in split_response.values():
                     if re.search(expected_id, item):
