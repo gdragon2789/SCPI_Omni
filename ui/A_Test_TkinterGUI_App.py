@@ -3,6 +3,12 @@ import threading
 import queue
 import time
 
+import sys
+import os
+
+# Add parent directory to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from ui.components.input_entry import InputEntry
 from ui.components.flexible_button import FlexibleButton
 from ui.components.text_display import TextDisplay
@@ -24,7 +30,7 @@ class MainApp(tk.Tk):
         self.input_entry.pack(side="top", fill="x", pady=5)
 
         # Left Panel (Buttons)
-        left_panel = tk.Frame(self, width=200, height=380, bg="white")
+        left_panel = tk.Frame(self, width=200, height=380)
         left_panel.pack(side="left", fill="y")
 
         self.start_button = FlexibleButton(left_panel, text="START", color="blue", command=self.start_test)
