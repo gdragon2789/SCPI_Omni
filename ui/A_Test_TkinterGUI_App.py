@@ -49,16 +49,35 @@ class MainApp(tk.Tk):
     def start_test(self):
         if not self.is_running:
             self.is_running = True
-            t = threading.Thread(target=self.test_flow, daemon=True)
+            t = threading.Thread(target=self.process_serial, daemon=True)
             t.start()
 
     def reset_test(self):
-        self.text_display.update_text("Ready")
+        self.text_display.clear_text()
+        # self.text_display.update_text("Ready")
         self.text_display.reset_progress()
         self.is_running = False
 
-    def test_flow(self):
+    def process_serial(self):
         serial = self.input_entry.get_serial()
+
+        if serial == "DEV-EXIT-1234":
+            self.dev_unlock()
+        else:
+            self.test_flow(serial)
+
+    def dev_unlock(self):
+        self.is_running = False
+        self.text_display.update_text("Developer Mode Activated")
+        self.text_display.config(bg="red")
+
+        # For full exit to desktop
+        self.after(1000, self.destroy)
+
+        # Or optionally open a new developer menu window instead of exit
+
+    def test_flow(self, serial=None):
+        # serial = self.input_entry.get_serial()
         total_steps = 5
         for i in range(total_steps):
             if not self.is_running:
