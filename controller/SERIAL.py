@@ -30,7 +30,7 @@ class SERIAL_Controller:
         self.debug = debug
         self._idn = None  # <-- Initialize first!
 
-        idn = self.query("*IDN?\n")
+        idn = self.query("*IDN?")
         if idn:
             self._idn = idn
             if self.debug:
