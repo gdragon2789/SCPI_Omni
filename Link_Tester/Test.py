@@ -71,11 +71,14 @@ class TestCases:
         self.app = app
         self.mode_var = self.app.widget.testMode
         self.ready_var = self.app.widget.selectButton
+        self.current_step = 0
 
+        print("Length of testcases: ", len(CONFIG["test_order"]))
 
         self.testcases = [
             scanID(app=self.app),
         ]
+
 
     def select_mode(self):
         if self.app.widget.selectButton.pressed():

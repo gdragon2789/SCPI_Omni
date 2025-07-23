@@ -4,6 +4,9 @@
     "version": "0.1.0",
     "window_size": [800, 480]
   },
+  "test_order": {
+    "scanID": 1
+  },
   "serial_pattern": {
     "length": 4,
     "pattern": "^1234$"
