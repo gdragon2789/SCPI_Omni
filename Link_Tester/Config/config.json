@@ -1,0 +1,25 @@
+{
+  "app": {
+    "title": "Link Tester",
+    "version": "0.1.0",
+    "window_size": [800, 480]
+  },
+  "test_settings": {
+    "default_steps": 5,
+    "step_delay_ms": 1000,
+    "max_progress": 100
+  },
+  "serial": {
+    "port": "/dev/ttyUSB0",
+    "baudrate": 9600,
+    "timeout": 1.0
+  },
+  "logging": {
+    "enabled": true,
+    "log_file": "test_log.txt"
+  },
+  "WIFI": {
+    "SSID": "YOUR_SSID",
+    "PASSWORD": "YOUR_PASSWORD"
+  }
+}
