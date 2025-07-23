@@ -4,6 +4,10 @@
     "version": "0.1.0",
     "window_size": [800, 480]
   },
+  "serial_pattern": {
+    "length": 4,
+    "pattern": "^1234$"
+  },
   "test_settings": {
     "default_steps": 5,
     "step_delay_ms": 1000,

@@ -26,3 +26,23 @@ class WrappedWidget:
     def config(self, **kwargs):
         """Apply arbitrary configuration like style, padding, colors."""
         self.widget.config(**kwargs)
+
+    def enable(self):
+        self.widget.config(state="normal")
+
+    def disable(self):
+        self.widget.config(state="disabled")
+
+    def clear(self):
+        if isinstance(self.widget, (tk.Entry, ttk.Entry)):
+            self.widget.delete(0, tk.END)
+        elif isinstance(self.widget, (tk.Label, ttk.Label)):
+            self.widget.config(text="")
+        elif isinstance(self.widget, (tk.Button, ttk.Button)):
+            self.widget.config(text="")
+
+    def focus_set(self):
+        self.widget.focus_set()
+
+    def pressed(self):
+        return self.widget.instate(["pressed"])
