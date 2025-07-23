@@ -1,4 +1,4 @@
-widgetName,Class,widgetType,width,height,row,col,x_span,y_span,text,text_scale,justify,bg
+widgetName,Class,widgetType,width,height,row,col,x_span,y_span,text,text_scale,justify,bg,fg
 meta,global,screen,800,480,,,,,,
 testMode,global,combobox,,,0,0,12,1,Link Mode;L Shape Mode;Z Shape Mode,0.5,center,,
 selectButton,global,button,,,0,12,4,1,Select,0.5,,,
@@ -6,5 +6,5 @@ entrySerial,global,entry,,,1,0,12,1,Serial Number,0.5,left,,
 clearButton,global,button,,,1,12,4,1,Clear,0.5,,,
 textInfo,global,text,,,2,0,12,6,,,left,,
 progressBar,global,progressbar,,,8,0,16,1,,,,
-passButton,global,button,,,2,12,4,3,YES,0.3,,,
-failButton,global,button,,,5,12,4,3,NO,0.3,,
+passButton,global,button,,,2,12,4,3,YES,0.3,,#808080,#008000,
+failButton,global,button,,,5,12,4,3,NO,0.3,,#808080,#FF0000,

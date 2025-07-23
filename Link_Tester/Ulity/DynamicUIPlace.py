@@ -9,7 +9,7 @@ import tkinter as tk
 from tkinter import font as tkfont
 from tkinter import ttk
 
-def style_widget(widget, height, text_scale, justify=None, bg=None):
+def style_widget(widget, height, text_scale, justify=None, bg=None, fg=None):
     import tkinter as tk
     from tkinter import font as tkfont
     from tkinter import ttk
@@ -27,12 +27,12 @@ def style_widget(widget, height, text_scale, justify=None, bg=None):
     widget_class = widget.winfo_class()
 
     if is_ttk and custom_font:
-        # Special handling for Combobox
-        if widget_class == "TCombobox" or widget_class == "TEntry":
+        # Special handling for Combobox or Entry
+        if widget_class in ("TCombobox", "TEntry"):
             try:
                 widget.configure(font=custom_font)
             except Exception as e:
-                print(f"[Error] Could not apply font to Combobox: {e}")
+                print(f"[Error] Could not apply font to {widget_class}: {e}")
         else:
             # Get base ttk style (e.g., TButton, TLabel)
             base_style = widget_class if widget_class.startswith("T") else f"T{widget_class}"
@@ -45,6 +45,15 @@ def style_widget(widget, height, text_scale, justify=None, bg=None):
 
             if bg:
                 style.configure(style_name, background=bg)
+                style.map(style_name,
+                    background=[("active", bg), ("!disabled", bg)],
+                )
+
+            if fg:
+                style.configure(style_name, foreground=fg)
+                style.map(style_name,
+                    foreground=[("active", fg), ("!disabled", fg)],
+                )
 
             try:
                 widget.configure(style=style_name)
@@ -76,6 +85,17 @@ def style_widget(widget, height, text_scale, justify=None, bg=None):
                 widget.configure(background=bg)
             except:
                 pass
+
+    # Foreground for non-ttk
+    if not is_ttk and fg:
+        try:
+            widget.configure(fg=fg)
+        except:
+            try:
+                widget.configure(foreground=fg)
+            except:
+                pass
+
 
 class DynamicUI:
     def __init__(self, csv_path):
@@ -166,7 +186,8 @@ class DynamicUI:
                     height=height,
                     text_scale=item.get("text_scale", 0.8),
                     justify=item.get("justify", "center"),
-                    bg=item.get("bg")
+                    bg=item.get("bg"),
+                    fg=item.get("fg"),
                 )
 
                 wrapped = WrappedWidget(item["widgetName"], widget)
