@@ -41,6 +41,18 @@ class Ui_Application(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.testModes.sizePolicy().hasHeightForWidth())
         self.testModes.setSizePolicy(sizePolicy)
+        font = QFont()
+        font.setPointSize(14)
+        font.setBold(True)
+        self.testModes.setFont(font)
+        self.testModes.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #444;\n"
+"    border-radius: 5px;\n"
+"    padding: 6px;\n"
+"    font-size: 16px;\n"
+"    background-color: #fafafa;\n"
+"}\n"
+"")
 
         self.setting_stack.addWidget(self.testModes)
 
@@ -51,6 +63,16 @@ class Ui_Application(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.readSeriesNumber.sizePolicy().hasHeightForWidth())
         self.readSeriesNumber.setSizePolicy(sizePolicy1)
+        font1 = QFont()
+        self.readSeriesNumber.setFont(font1)
+        self.readSeriesNumber.setStyleSheet(u"QLineEdit {\n"
+"    border: 2px solid #444;\n"
+"    border-radius: 5px;\n"
+"    padding: 6px;\n"
+"    font-size: 16px;\n"
+"    background-color: #fafafa;\n"
+"}\n"
+"")
 
         self.setting_stack.addWidget(self.readSeriesNumber)
 
@@ -68,6 +90,27 @@ class Ui_Application(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.selectButton.sizePolicy().hasHeightForWidth())
         self.selectButton.setSizePolicy(sizePolicy2)
+        font2 = QFont()
+        font2.setBold(True)
+        self.selectButton.setFont(font2)
+        self.selectButton.setStyleSheet(u"QPushButton {\n"
+"    background-color: #e0e0e0;\n"
+"    border: 2px solid #555;\n"
+"    border-radius: 6px;\n"
+"    padding: 8px;\n"
+"    font-size: 18px;\n"
+"    font-weight: bold;\n"
+"    color: black;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #d0d0d0;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #c0c0c0;\n"
+"}\n"
+"")
 
         self.setting_button_stack.addWidget(self.selectButton)
 
@@ -75,6 +118,25 @@ class Ui_Application(object):
         self.resetButton.setObjectName(u"resetButton")
         sizePolicy2.setHeightForWidth(self.resetButton.sizePolicy().hasHeightForWidth())
         self.resetButton.setSizePolicy(sizePolicy2)
+        self.resetButton.setFont(font2)
+        self.resetButton.setStyleSheet(u"QPushButton {\n"
+"    background-color: #e0e0e0;\n"
+"    border: 2px solid #555;\n"
+"    border-radius: 6px;\n"
+"    padding: 8px;\n"
+"    font-size: 18px;\n"
+"    font-weight: bold;\n"
+"    color: black;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #d0d0d0;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #c0c0c0;\n"
+"}\n"
+"")
 
         self.setting_button_stack.addWidget(self.resetButton)
 
@@ -101,10 +163,25 @@ class Ui_Application(object):
         self.button_num1.setObjectName(u"button_num1")
         sizePolicy2.setHeightForWidth(self.button_num1.sizePolicy().hasHeightForWidth())
         self.button_num1.setSizePolicy(sizePolicy2)
-        font = QFont()
-        font.setPointSize(20)
-        font.setBold(True)
-        self.button_num1.setFont(font)
+        self.button_num1.setFont(font2)
+        self.button_num1.setStyleSheet(u"QPushButton {\n"
+"    background-color: #e0e0e0;\n"
+"    border: 2px solid #555;\n"
+"    border-radius: 6px;\n"
+"    padding: 8px;\n"
+"    font-size: 24px;\n"
+"    font-weight: bold;\n"
+"    color: black;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #2e7d32 ;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #c0c0c0;\n"
+"}\n"
+"")
 
         self.operator_stack.addWidget(self.button_num1)
 
@@ -112,7 +189,25 @@ class Ui_Application(object):
         self.button_num2.setObjectName(u"button_num2")
         sizePolicy2.setHeightForWidth(self.button_num2.sizePolicy().hasHeightForWidth())
         self.button_num2.setSizePolicy(sizePolicy2)
-        self.button_num2.setFont(font)
+        self.button_num2.setFont(font2)
+        self.button_num2.setStyleSheet(u"QPushButton {\n"
+"    background-color: #e0e0e0;\n"
+"    border: 2px solid #555;\n"
+"    border-radius: 6px;\n"
+"    padding: 8px;\n"
+"    font-size: 24px;\n"
+"    font-weight: bold;\n"
+"    color: black;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #c62828 ;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: #c0c0c0;\n"
+"}\n"
+"")
 
         self.operator_stack.addWidget(self.button_num2)
 
@@ -135,9 +230,24 @@ class Ui_Application(object):
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.progressBar.sizePolicy().hasHeightForWidth())
         self.progressBar.setSizePolicy(sizePolicy3)
-        font1 = QFont()
-        font1.setPointSize(14)
-        self.progressBar.setFont(font1)
+        self.progressBar.setBaseSize(QSize(0, 0))
+        self.progressBar.setFont(font2)
+        self.progressBar.setAutoFillBackground(False)
+        self.progressBar.setStyleSheet(u"QProgressBar {\n"
+"    border: 1px solid #555;\n"
+"    border-radius: 5px;\n"
+"    text-align: center;\n"
+"    background-color: #e0e0e0;\n"
+"    min-height: 30px;\n"
+"    font-size: 16px;\n"
+"    font-weight: bold;\n"
+"}\n"
+"\n"
+"QProgressBar::chunk {\n"
+"    background-color: #0277bd;  /* Blue */\n"
+"    width: 10px;\n"
+"}\n"
+"")
         self.progressBar.setValue(0)
         self.progressBar.setTextVisible(True)
         self.progressBar.setInvertedAppearance(False)
@@ -146,10 +256,7 @@ class Ui_Application(object):
 
         self.appVersion = QLineEdit(Application)
         self.appVersion.setObjectName(u"appVersion")
-        font2 = QFont()
-        font2.setPointSize(14)
-        font2.setBold(True)
-        self.appVersion.setFont(font2)
+        self.appVersion.setFont(font)
         self.appVersion.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.appVersion.setDragEnabled(False)
         self.appVersion.setReadOnly(True)
@@ -172,10 +279,10 @@ class Ui_Application(object):
 
     def retranslateUi(self, Application):
         Application.setWindowTitle(QCoreApplication.translate("Application", u"WUNU-LINK PCBA TEST APP", None))
-        self.testModes.setItemText(0, QCoreApplication.translate("Application", u"                                                                                LINK MODE", None))
-        self.testModes.setItemText(1, QCoreApplication.translate("Application", u"                                                                                  L-Z MODE", None))
+        self.testModes.setItemText(0, QCoreApplication.translate("Application", u"                                               LINK MODE", None))
+        self.testModes.setItemText(1, QCoreApplication.translate("Application", u"                                                L-Z MODE", None))
 
-        self.readSeriesNumber.setPlaceholderText(QCoreApplication.translate("Application", u"                                                                     Input Board Serial Number", None))
+        self.readSeriesNumber.setPlaceholderText(QCoreApplication.translate("Application", u"                                                Input Board Serial Number", None))
         self.selectButton.setText(QCoreApplication.translate("Application", u"SELECT MODE", None))
         self.resetButton.setText(QCoreApplication.translate("Application", u"RESET", None))
         self.button_num1.setText(QCoreApplication.translate("Application", u"YES", None))
