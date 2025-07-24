@@ -1,13 +1,11 @@
-import tkinter as tk
-from tkinter import ttk
-import tkinter.font as tkfont
+
 import csv
 from types import SimpleNamespace
 from .WrappedWidget import WrappedWidget
-
 import tkinter as tk
 from tkinter import font as tkfont
 from tkinter import ttk
+import threading
 
 def style_widget(widget, height, text_scale, justify=None, bg=None, fg=None):
     import tkinter as tk
@@ -195,5 +193,6 @@ class DynamicUI:
             except Exception as e:
                 print(f"[Error] Failed to create widget '{item['widgetName']}': {e}")
 
-    def __call__(self):
+    def start(self):
         self.root.mainloop()
+

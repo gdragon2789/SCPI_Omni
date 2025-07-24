@@ -5,7 +5,10 @@ import json
 import re
 
 Application = DynamicUI("Config/gui_config.csv")
-CONFIG = json.load(open("Config/config.json"))
+Application()
+
+with open("../Config/config.json", "r", encoding="utf-8") as f:
+    CONFIG = json.load(f)
 
 class testBase:
     def __init__(self):
@@ -81,11 +84,13 @@ class TestCases:
 
 
     def select_mode(self):
-        if self.app.widget.selectButton.pressed():
-            print(f"Selected Mode {self.app.widget.testMode.get()}")
-        else:
-            print("Not selected")
-            self.app.root.after(1000, self.select_mode)
+        while True:
+            if self.app.widget.selectButton.pressed():
+                print(f"Selected Mode {self.app.widget.testMode.get()}")
+                break
+            else:
+                print("Not selected")
+            time.sleep(1)
 
 
     def run(self):
@@ -98,6 +103,6 @@ class TestCases:
 if __name__ == "__main__":
     Tester = TestCases(app=Application)
     Tester.select_mode()
-    Tester.run()
-    Application()
+    # Tester.run()
+
 
