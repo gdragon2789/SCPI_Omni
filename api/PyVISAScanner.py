@@ -1,6 +1,19 @@
 import pyvisa
 import platform
 import re
+import os
+import sys
+
+# Lấy thư mục hiện tại của file
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Lên 2 cấp để đến thư mục SCPI_Omni
+parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
+
+# Thêm vào sys.path nếu chưa có
+if parent_dir not in sys.path:
+    sys.path.append(parent_dir)
+
 from controller.SERIAL import SERIAL_Controller
 from controller.TCPIP import TCPIP_Controller
 
@@ -239,7 +252,7 @@ class PyVISAScanner:
 
                 for item in split_response.values():
                     if re.search(expected_id, item):
-                        print(f"Instrument found: {available_instruments["instr"]} on {available_instruments["connection"]}")
+                        print(f"Instrument found: {available_instruments['instr']} on {available_instruments['connection']}")
                         return available_instruments["connection_type"],available_instruments["connection"],
 
             except pyvisa.VisaIOError as e:
