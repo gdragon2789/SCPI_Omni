@@ -6,7 +6,7 @@ class SERIAL_Controller:
     def __init__(self,
                  port: str,
                  baudrate: int = 9600,
-                 timeout: float | None = 0.01,
+                 timeout: float | None = 1,
                  buffer_size: int = 4096,
                  debug=False) -> None:
         """
@@ -30,7 +30,7 @@ class SERIAL_Controller:
         self.debug = debug
         self._idn = None  # <-- Initialize first!
 
-        idn = self.query("*IDN?")
+        idn = self.query("*IDN?\n")
         if idn:
             self._idn = idn
             if self.debug:

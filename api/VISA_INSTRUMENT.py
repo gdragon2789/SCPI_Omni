@@ -158,7 +158,7 @@ class VISA_INSTRUMENT:
             if kwargs["input_value"] in kwargs["list_range"]:
                 return True
             else:
-                raise ValueError(f"{kwargs["input_value"]:.6f} not exit in {kwargs["list_range"]}")
+                raise ValueError(f"{kwargs['input_value']:.6f} not exit in {kwargs['list_range']}")
 
     @staticmethod
     def is_valid_combination(input_value, list_range):
