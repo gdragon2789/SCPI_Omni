@@ -1,4 +1,5 @@
 import pyvisa
+import platform
 import re
 from controller.SERIAL import SERIAL_Controller
 from controller.TCPIP import TCPIP_Controller
@@ -7,7 +8,7 @@ from controller.TCPIP import TCPIP_Controller
 
 class PyVISAScanner:
     def __init__(self):
-        self.__resource_manager = pyvisa.ResourceManager()
+        self.__resource_manager = pyvisa.ResourceManager('@py')
         self.__resource_store = self.__resource_manager.list_resources()
         self.__hardware_store = []
         self.__scanner_initial()
@@ -69,7 +70,16 @@ class PyVISAScanner:
 
         elif components[0].startswith("ASRL"):
             serial_result_dict["connect_type"] = "Serial"
-            serial_result_dict["port"] = f"COM{components[0][4:]}"
+            os_name = platform.system()
+            raw_port = components[0][4:]
+
+            if os_name == "Windows":
+                # On Windows, it will just be a number, e.g., ASRL3 => COM3
+                serial_result_dict["port"] = f"COM{raw_port}"
+
+            else:
+                # On Linux/Mac, it will already be something like /dev/ttyUSB0
+                serial_result_dict["port"] = raw_port
             serial_result_dict["resource_type"] = components[1]
             serial_result_dict["visa_id"] = resource_string
             return serial_result_dict
