@@ -42,17 +42,18 @@ class Ui_Application(object):
         sizePolicy.setHeightForWidth(self.testModes.sizePolicy().hasHeightForWidth())
         self.testModes.setSizePolicy(sizePolicy)
         font = QFont()
-        font.setPointSize(14)
         font.setBold(True)
         self.testModes.setFont(font)
-        self.testModes.setStyleSheet(u"QLineEdit {\n"
+        self.testModes.setStyleSheet(u"QComboBox {\n"
 "    border: 2px solid #444;\n"
 "    border-radius: 5px;\n"
 "    padding: 6px;\n"
 "    font-size: 16px;\n"
 "    background-color: #fafafa;\n"
 "}\n"
+"\n"
 "")
+        self.testModes.setEditable(True)
 
         self.setting_stack.addWidget(self.testModes)
 
@@ -77,7 +78,6 @@ class Ui_Application(object):
         self.setting_stack.addWidget(self.readSeriesNumber)
 
         self.setting_stack.setStretch(0, 1)
-        self.setting_stack.setStretch(1, 1)
 
         self.top_stack.addLayout(self.setting_stack)
 
@@ -90,9 +90,7 @@ class Ui_Application(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.selectButton.sizePolicy().hasHeightForWidth())
         self.selectButton.setSizePolicy(sizePolicy2)
-        font2 = QFont()
-        font2.setBold(True)
-        self.selectButton.setFont(font2)
+        self.selectButton.setFont(font)
         self.selectButton.setStyleSheet(u"QPushButton {\n"
 "    background-color: #e0e0e0;\n"
 "    border: 2px solid #555;\n"
@@ -118,7 +116,7 @@ class Ui_Application(object):
         self.resetButton.setObjectName(u"resetButton")
         sizePolicy2.setHeightForWidth(self.resetButton.sizePolicy().hasHeightForWidth())
         self.resetButton.setSizePolicy(sizePolicy2)
-        self.resetButton.setFont(font2)
+        self.resetButton.setFont(font)
         self.resetButton.setStyleSheet(u"QPushButton {\n"
 "    background-color: #e0e0e0;\n"
 "    border: 2px solid #555;\n"
@@ -163,7 +161,7 @@ class Ui_Application(object):
         self.button_num1.setObjectName(u"button_num1")
         sizePolicy2.setHeightForWidth(self.button_num1.sizePolicy().hasHeightForWidth())
         self.button_num1.setSizePolicy(sizePolicy2)
-        self.button_num1.setFont(font2)
+        self.button_num1.setFont(font)
         self.button_num1.setStyleSheet(u"QPushButton {\n"
 "    background-color: #e0e0e0;\n"
 "    border: 2px solid #555;\n"
@@ -189,7 +187,7 @@ class Ui_Application(object):
         self.button_num2.setObjectName(u"button_num2")
         sizePolicy2.setHeightForWidth(self.button_num2.sizePolicy().hasHeightForWidth())
         self.button_num2.setSizePolicy(sizePolicy2)
-        self.button_num2.setFont(font2)
+        self.button_num2.setFont(font)
         self.button_num2.setStyleSheet(u"QPushButton {\n"
 "    background-color: #e0e0e0;\n"
 "    border: 2px solid #555;\n"
@@ -231,7 +229,7 @@ class Ui_Application(object):
         sizePolicy3.setHeightForWidth(self.progressBar.sizePolicy().hasHeightForWidth())
         self.progressBar.setSizePolicy(sizePolicy3)
         self.progressBar.setBaseSize(QSize(0, 0))
-        self.progressBar.setFont(font2)
+        self.progressBar.setFont(font)
         self.progressBar.setAutoFillBackground(False)
         self.progressBar.setStyleSheet(u"QProgressBar {\n"
 "    border: 1px solid #555;\n"
@@ -256,7 +254,10 @@ class Ui_Application(object):
 
         self.appVersion = QLineEdit(Application)
         self.appVersion.setObjectName(u"appVersion")
-        self.appVersion.setFont(font)
+        font2 = QFont()
+        font2.setPointSize(14)
+        font2.setBold(True)
+        self.appVersion.setFont(font2)
         self.appVersion.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.appVersion.setDragEnabled(False)
         self.appVersion.setReadOnly(True)
@@ -279,9 +280,11 @@ class Ui_Application(object):
 
     def retranslateUi(self, Application):
         Application.setWindowTitle(QCoreApplication.translate("Application", u"WUNU-LINK PCBA TEST APP", None))
-        self.testModes.setItemText(0, QCoreApplication.translate("Application", u"                                               LINK MODE", None))
-        self.testModes.setItemText(1, QCoreApplication.translate("Application", u"                                                L-Z MODE", None))
+        self.testModes.setItemText(0, QCoreApplication.translate("Application", u"                                                           LINK MODE", None))
+        self.testModes.setItemText(1, QCoreApplication.translate("Application", u"                                                           L-Z MODE", None))
 
+        self.testModes.setCurrentText("")
+        self.testModes.setPlaceholderText(QCoreApplication.translate("Application", u"Select Mode Here", None))
         self.readSeriesNumber.setPlaceholderText(QCoreApplication.translate("Application", u"                                                Input Board Serial Number", None))
         self.selectButton.setText(QCoreApplication.translate("Application", u"SELECT MODE", None))
         self.resetButton.setText(QCoreApplication.translate("Application", u"RESET", None))

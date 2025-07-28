@@ -20,7 +20,7 @@
    <item>
     <layout class="QHBoxLayout" name="top_stack" stretch="8,2">
      <item>
-      <layout class="QVBoxLayout" name="setting_stack" stretch="1,1">
+      <layout class="QVBoxLayout" name="setting_stack" stretch="1,0">
        <item>
         <widget class="QComboBox" name="testModes">
          <property name="sizePolicy">
@@ -31,28 +31,38 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <pointsize>-1</pointsize>
            <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">QLineEdit {
+          <string notr="true">QComboBox {
     border: 2px solid #444;
     border-radius: 5px;
     padding: 6px;
     font-size: 16px;
     background-color: #fafafa;
 }
+
 </string>
+         </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <property name="currentText">
+          <string/>
+         </property>
+         <property name="placeholderText">
+          <string>Select Mode Here</string>
          </property>
          <item>
           <property name="text">
-           <string>                                               LINK MODE</string>
+           <string>                                                           LINK MODE</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>                                                L-Z MODE</string>
+           <string>                                                           L-Z MODE</string>
           </property>
          </item>
         </widget>
