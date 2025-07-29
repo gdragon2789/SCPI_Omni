@@ -131,7 +131,6 @@ class WPS300S(VISA_INSTRUMENT):
         cmd = APPLy.SET_APPLy.value.format(voltage=volt, current=curr)
         self.write(command=cmd)
 
-
         #check the status
         results = self.get_setup()
         if results[0] == volt and results[1] == curr:
@@ -140,6 +139,23 @@ class WPS300S(VISA_INSTRUMENT):
         else:
             print("Failed")
             return False
+
+    def get_actual_voltage(self):
+        cmd = MEASure.GET_MEASure_VOLTage.value
+        result = self.query(command=cmd)
+        return float(result)
+
+    def get_actual_current(self):
+        cmd = MEASure.GET_MEASure_CURRent.value
+        result = self.query(command=cmd)
+        return float(result)
+
+    def get_actual_power(self):
+        cmd = MEASure.GET_MEASure_POWER.value
+        result = self.query(command=cmd)
+        return float(result)
+
+
 
 
 
