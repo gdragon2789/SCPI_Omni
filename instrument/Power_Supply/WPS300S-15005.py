@@ -204,6 +204,21 @@ class WPS300S(VISA_INSTRUMENT):
         self.set_ovp(voltage=ovp)
         self.set_ocp(current=ocp)
 
+    def min_setup(self, min_volt=0.0, min_curr=0.0):
+        cmd = VOLTage.SET_VOLTage_MIN.value.format(voltage=min_volt)
+        self.write(command=cmd)
+        cmd = CURRent.SET_CURRent_MIN.value.format(current=min_curr)
+        self.write(command=cmd)
+
+    def max_setup(self, max_volt=0.0, max_curr=0.0):
+        cmd = VOLTage.SET_VOLTage_MAX.value.format(voltage=max_volt)
+        self.write(command=cmd)
+        cmd = CURRent.SET_CURRent_MAX.value.format(current=max_curr)
+        self.write(command=cmd)
+
+    def min_max_setup(self, min_volt=0.0, min_curr=0.0, max_volt=0.0, max_curr=0.0):
+        self.min_setup(min_volt=min_volt, min_curr=min_curr)
+        self.max_setup(max_volt=max_volt, max_curr=max_curr)
 
 
 
