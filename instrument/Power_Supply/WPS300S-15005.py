@@ -168,9 +168,10 @@ class WPS300S(VISA_INSTRUMENT):
 
     def get_actual_vcm(self):
         cmd = MEASure.GET_MEASure_VCM.value
-        result = self.query(command=cmd)
-        print(f"Actual VCM: {result}")
-        return float(result)
+        results =self.query(command=cmd).split(sep=",")
+        float_list = [float(x) for x in results]
+        print(f"Actual VCM: {float_list}")
+        return float_list
     
     def enable_output(self):
         cmd = OUTPut.SET_OUTPut.value.format(state=1)
