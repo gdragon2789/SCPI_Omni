@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>MainApp</class>
+ <widget class="QWidget" name="MainApp">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,7 +15,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QFrame" name="frame">
+    <widget class="QFrame" name="leftPanel">
      <property name="frameShape">
       <enum>QFrame::Shape::StyledPanel</enum>
      </property>
@@ -24,7 +24,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QFrame" name="frame_6">
+       <widget class="QFrame" name="appLogo">
         <property name="frameShape">
          <enum>QFrame::Shape::StyledPanel</enum>
         </property>
@@ -33,16 +33,40 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="logo">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
            <property name="text">
-            <string>TextLabel</string>
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="resources.qrc">:/icons/solar-linear-icons/magic-stick-3.svg</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="appName">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
            <property name="text">
-            <string>TextLabel</string>
+            <string>WPS150S</string>
            </property>
           </widget>
          </item>
@@ -50,7 +74,13 @@
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_4">
+       <widget class="QFrame" name="setUpPanel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="frameShape">
          <enum>QFrame::Shape::StyledPanel</enum>
         </property>
@@ -59,23 +89,48 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="defaultSetup">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
-            <string>PushButton</string>
+            <string>Default Setup</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resources.qrc">
+             <normaloff>:/icons/solar-linear-icons/restart.svg</normaloff>:/icons/solar-linear-icons/restart.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2">
-           <property name="text">
-            <string>PushButton</string>
+          <widget class="QPushButton" name="logCSV">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_3">
            <property name="text">
-            <string>PushButton</string>
+            <string>Log CSV</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resources.qrc">
+             <normaloff>:/icons/solar-linear-icons/folder-with-files.svg</normaloff>:/icons/solar-linear-icons/folder-with-files.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -86,7 +141,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QFrame" name="frame_2">
+    <widget class="QFrame" name="rightPanel">
      <property name="frameShape">
       <enum>QFrame::Shape::StyledPanel</enum>
      </property>
@@ -95,7 +150,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QFrame" name="frame_7">
+       <widget class="QFrame" name="optionPanel">
         <property name="frameShape">
          <enum>QFrame::Shape::StyledPanel</enum>
         </property>
@@ -104,24 +159,122 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QPushButton" name="pushButton_4">
-           <property name="text">
-            <string>PushButton</string>
+          <widget class="QFrame" name="menuPanel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
+           <property name="frameShape">
+            <enum>QFrame::Shape::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Shadow::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_13">
+            <item alignment="Qt::AlignmentFlag::AlignLeft">
+             <widget class="QPushButton" name="menuButton">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/icons/solar-linear-icons/menu-dots-circle.svg</normaloff>:/icons/solar-linear-icons/menu-dots-circle.svg</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="menuLabel">
+              <property name="text">
+               <string>MENU</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>TextLabel</string>
+          <widget class="QFrame" name="mainScreen">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
+           <property name="frameShape">
+            <enum>QFrame::Shape::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Shadow::Raised</enum>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_15">
+            <item>
+             <widget class="QLabel" name="display">
+              <property name="text">
+               <string>Main Screen</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="appInterface">
+           <property name="frameShape">
+            <enum>QFrame::Shape::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Shadow::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_12">
+            <item>
+             <widget class="QPushButton" name="minimize">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/icons/solar-linear-icons/minus-circle.svg</normaloff>:/icons/solar-linear-icons/minus-circle.svg</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="maximize">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/icons/solar-linear-icons/circle-top-up.svg</normaloff>:/icons/solar-linear-icons/circle-top-up.svg</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="quit">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/icons/solar-linear-icons/exit.svg</normaloff>:/icons/solar-linear-icons/exit.svg</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_3">
+       <widget class="QFrame" name="mainFrame">
         <property name="frameShape">
          <enum>QFrame::Shape::StyledPanel</enum>
         </property>
@@ -132,12 +285,12 @@
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
-           <widget class="QWidget" name="page">
+           <widget class="QWidget" name="basicView">
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item alignment="Qt::AlignmentFlag::AlignTop">
-              <widget class="QFrame" name="frame_10">
+              <widget class="QFrame" name="header">
                <property name="frameShape">
                 <enum>QFrame::Shape::StyledPanel</enum>
                </property>
@@ -146,9 +299,9 @@
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_6">
                 <item alignment="Qt::AlignmentFlag::AlignTop">
-                 <widget class="QLabel" name="label_5">
+                 <widget class="QLabel" name="basicViewLabel">
                   <property name="text">
-                   <string>TextLabel</string>
+                   <string>Basic View</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -159,7 +312,277 @@
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_11">
+              <widget class="QFrame" name="displayInfor">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::Shape::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Shadow::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <item>
+                 <widget class="QFrame" name="setupInfor">
+                  <property name="frameShape">
+                   <enum>QFrame::Shape::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Shadow::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_9">
+                   <item>
+                    <widget class="QFrame" name="frame_16">
+                     <property name="frameShape">
+                      <enum>QFrame::Shape::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Shadow::Raised</enum>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_11">
+                      <item alignment="Qt::AlignmentFlag::AlignTop">
+                       <widget class="QLabel" name="label_7">
+                        <property name="text">
+                         <string>Setup</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignmentFlag::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QFrame" name="frame_17">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::Shape::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Shadow::Raised</enum>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_13">
+                      <item>
+                       <widget class="QFrame" name="frame_20">
+                        <property name="frameShape">
+                         <enum>QFrame::Shape::StyledPanel</enum>
+                        </property>
+                        <property name="frameShadow">
+                         <enum>QFrame::Shadow::Raised</enum>
+                        </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_8">
+                         <item alignment="Qt::AlignmentFlag::AlignLeft">
+                          <widget class="QLabel" name="label_10">
+                           <property name="text">
+                            <string>Voltage</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QLCDNumber" name="setupVoltageDisplay">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="smallDecimalPoint">
+                            <bool>false</bool>
+                           </property>
+                           <property name="digitCount">
+                            <number>5</number>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QFrame" name="frame_21">
+                        <property name="frameShape">
+                         <enum>QFrame::Shape::StyledPanel</enum>
+                        </property>
+                        <property name="frameShadow">
+                         <enum>QFrame::Shadow::Raised</enum>
+                        </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_9">
+                         <item alignment="Qt::AlignmentFlag::AlignLeft">
+                          <widget class="QLabel" name="label_11">
+                           <property name="text">
+                            <string>Curent</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QLCDNumber" name="setupCurrentDisplay">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="outputInfor">
+                  <property name="frameShape">
+                   <enum>QFrame::Shape::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Shadow::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_10">
+                   <item>
+                    <widget class="QFrame" name="frame_18">
+                     <property name="frameShape">
+                      <enum>QFrame::Shape::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Shadow::Raised</enum>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_12">
+                      <item alignment="Qt::AlignmentFlag::AlignTop">
+                       <widget class="QLabel" name="label_8">
+                        <property name="text">
+                         <string>Output</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignmentFlag::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QFrame" name="frame_19">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::Shape::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Shadow::Raised</enum>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_14">
+                      <item>
+                       <widget class="QFrame" name="frame_22">
+                        <property name="frameShape">
+                         <enum>QFrame::Shape::StyledPanel</enum>
+                        </property>
+                        <property name="frameShadow">
+                         <enum>QFrame::Shadow::Raised</enum>
+                        </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_11">
+                         <item alignment="Qt::AlignmentFlag::AlignLeft">
+                          <widget class="QLabel" name="label_12">
+                           <property name="text">
+                            <string>Voltage</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QLCDNumber" name="outputVoltageDisplay">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QFrame" name="frame_23">
+                        <property name="frameShape">
+                         <enum>QFrame::Shape::StyledPanel</enum>
+                        </property>
+                        <property name="frameShadow">
+                         <enum>QFrame::Shadow::Raised</enum>
+                        </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_10">
+                         <item alignment="Qt::AlignmentFlag::AlignLeft">
+                          <widget class="QLabel" name="label_13">
+                           <property name="text">
+                            <string>Curent</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QLCDNumber" name="outputCurrentDisplay">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="page_2">
+            <layout class="QVBoxLayout" name="verticalLayout_7">
+             <item>
+              <widget class="QFrame" name="frame_12">
+               <property name="frameShape">
+                <enum>QFrame::Shape::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Shadow::Raised</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item alignment="Qt::AlignmentFlag::AlignTop">
+                 <widget class="QLabel" name="label_6">
+                  <property name="text">
+                   <string>Graph View</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_13">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                  <horstretch>0</horstretch>
@@ -176,14 +599,13 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="page_2"/>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_5">
+       <widget class="QFrame" name="basicSetup">
         <property name="frameShape">
          <enum>QFrame::Shape::StyledPanel</enum>
         </property>
@@ -192,7 +614,7 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QFrame" name="frame_9">
+          <widget class="QFrame" name="setup">
            <property name="frameShape">
             <enum>QFrame::Shape::StyledPanel</enum>
            </property>
@@ -201,9 +623,29 @@
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
-             <widget class="QLabel" name="label_4">
+             <widget class="QLabel" name="setupVoltageLabel">
               <property name="text">
-               <string>TextLabel</string>
+               <string>Voltage</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="setupVoltageInput"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="setupCurrentLabel">
+              <property name="text">
+               <string>Current</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="setupCurrentInput"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="setupButton">
+              <property name="text">
+               <string>Set</string>
               </property>
              </widget>
             </item>
@@ -211,13 +653,29 @@
           </widget>
          </item>
          <item>
-          <widget class="QFrame" name="frame_8">
+          <widget class="QFrame" name="outPutControl">
            <property name="frameShape">
             <enum>QFrame::Shape::StyledPanel</enum>
            </property>
            <property name="frameShadow">
             <enum>QFrame::Shadow::Raised</enum>
            </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QLabel" name="outPutStatus">
+              <property name="text">
+               <string>Status</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="outPutButton">
+              <property name="text">
+               <string>ON/OFF</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
@@ -228,6 +686,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
