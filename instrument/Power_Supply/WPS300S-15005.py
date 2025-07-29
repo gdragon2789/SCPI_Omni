@@ -15,6 +15,8 @@ from api.__init__ import *
 from decimal import Decimal
 import re
 
+DEBUG_MESSAGE = "Ohayogozaimasu, WPS300S-15005"
+
 class DeviceConst(Enum):
     ON = "1"
     OFF = "0"
@@ -28,7 +30,7 @@ class SYSTem(Enum):
     GET_SYSTem_TEMP = ":SYSTem:TEMP?"
 
 class APPLy(Enum):
-    SET_APPLy = ":APPLy{voltage},{current}"
+    SET_APPLy = ":APPLy {voltage},{current}"
     GET_APPLy = ":APPLy?"
 
 class MEASure(Enum):
@@ -68,6 +70,8 @@ class CURRent(Enum):
 class WPS300S(VISA_INSTRUMENT):
     def __init__(self, visa_port=None, connection_type=None):
         super().__init__(visa_port, connection_type)
+        self.enable_remote()
+        self.slew_rate = 0.5 # Need to measure
 
     def device_validator(self,command, result):
         res = self.query(command=command)
@@ -116,6 +120,31 @@ class WPS300S(VISA_INSTRUMENT):
         #check the status
         self.device_validator(command=SYSTem.GET_SYSTem_BEEP.value,
                               result=DeviceConst.OFF.value)
+
+    def get_setup(self):
+        cmd = APPLy.GET_APPLy.value
+        results =self.query(command=cmd).split(sep=",")
+        float_list = [float(x) for x in results]
+        return float_list
+
+    def setup(self,volt=0.0, curr=0.0):
+        cmd = APPLy.SET_APPLy.value.format(voltage=volt, current=curr)
+        self.write(command=cmd)
+
+
+        #check the status
+        results = self.get_setup()
+        if results[0] == volt and results[1] == curr:
+            print("Success")
+            return True
+        else:
+            print("Failed")
+            return False
+
+
+
+
+
 if __name__ == '__main__':
     scanner = PyVISAScanner()
     # scanner.scan_instruments()
@@ -124,6 +153,8 @@ if __name__ == '__main__':
     instr = WPS300S(visa_port=port, connection_type=connect_type)
     instr.enable_remote()
     instr.enable_beeper()
-    
-    instr.disable_beeper()
-    instr.controller.close()
+    instr.setup(volt=12.0, curr=1.0)
+    instr.setup(volt=24.0, curr=1.0)
+    instr.setup(volt=48.0, curr=1.0)
+    # instr.disable_beeper()
+    # instr.controller.close()

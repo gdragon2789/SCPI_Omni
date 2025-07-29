@@ -16,7 +16,7 @@ class VISA_INSTRUMENT:
         self.timing = None
         self.usb_timing_profile = TimingProfile()
         self.tcpip_timing_profile = TimingProfile()
-        self.serial_timing_profile = TimingProfile(write_delay=0.5, soft_delay=0.5, query_delay=1.0)
+        self.serial_timing_profile = TimingProfile(write_delay=0.5, soft_delay=0.5, query_delay=0.5)
         self.__connect()
 
     def __connect(self):
