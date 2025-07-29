@@ -71,7 +71,9 @@ class WPS300S(VISA_INSTRUMENT):
     def __init__(self, visa_port=None, connection_type=None):
         super().__init__(visa_port, connection_type)
         self.enable_remote()
-        self.slew_rate = 0.5 # Need to measure
+        self.slew_rate = 0.15 # Need to measure
+        self.get_setup()
+        print(self.now_voltage, self.now_current)
 
     def device_validator(self,command, result):
         res = self.query(command=command)
@@ -125,12 +127,15 @@ class WPS300S(VISA_INSTRUMENT):
         cmd = APPLy.GET_APPLy.value
         results =self.query(command=cmd).split(sep=",")
         float_list = [float(x) for x in results]
+        self.now_voltage = float_list[0]
+        self.now_current = float_list[1]
         return float_list
+    
 
     def setup(self,volt=0.0, curr=0.0):
         cmd = APPLy.SET_APPLy.value.format(voltage=volt, current=curr)
         self.write(command=cmd)
-
+            
         #check the status
         results = self.get_setup()
         if results[0] == volt and results[1] == curr:
@@ -143,21 +148,33 @@ class WPS300S(VISA_INSTRUMENT):
     def get_actual_voltage(self):
         cmd = MEASure.GET_MEASure_VOLTage.value
         result = self.query(command=cmd)
+        print(f"Actual Voltage: {result}")
         return float(result)
 
     def get_actual_current(self):
         cmd = MEASure.GET_MEASure_CURRent.value
         result = self.query(command=cmd)
+        print(f"Actual Current: {result}")
         return float(result)
 
     def get_actual_power(self):
         cmd = MEASure.GET_MEASure_POWER.value
         result = self.query(command=cmd)
+        print(f"Actual Power: {result}")
         return float(result)
+    
+    def enable_output(self):
+        cmd = OUTPut.SET_OUTPut.value.format(state=1)
+        self.write(command=cmd)
+        
+        time.sleep(self.now_voltage * self.slew_rate)
+         
+    
+    def disable_output(self):
+        cmd = OUTPut.SET_OUTPut.value.format(state=0)
+        self.write(command=cmd)
 
-
-
-
+        time.sleep(self.now_voltage * self.slew_rate)
 
 
 
@@ -172,5 +189,14 @@ if __name__ == '__main__':
     instr.setup(volt=12.0, curr=1.0)
     instr.setup(volt=24.0, curr=1.0)
     instr.setup(volt=48.0, curr=1.0)
+    instr.enable_output()
+    instr.get_actual_voltage()
+    instr.get_actual_current()
+    instr.get_actual_power()
+    instr.disable_output()
+    instr.get_actual_voltage()
+    instr.get_actual_current()
+    instr.get_actual_power()
+    
     # instr.disable_beeper()
     # instr.controller.close()
