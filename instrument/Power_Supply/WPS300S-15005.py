@@ -50,7 +50,7 @@ class VOLTage(Enum):
     GET_VOLTage_MIN = ":VOLTage:MIN?"
     SET_VOLTage_MAX = ":VOLTage:MAX {voltage}"
     GET_VOLTage_MAX = ":VOLTage:MAX?"
-    SET_VOLTage_PROTection = ":VOLTage:PROTection {volt}"
+    SET_VOLTage_PROTection = ":VOLTage:PROTection {voltage}"
     GET_VOLTage_PROTection = ":VOLTage:PROTection?"
     SET_VOLTage_PROTection_STATE = ":VOLTage:PROTection:STATe {state}"
     GET_VOLTage_PROTection_STATE = ":VOLTage:PROTection:STATe?"
@@ -62,7 +62,7 @@ class CURRent(Enum):
     GET_CURRent_MIN = ":CURRent:MIN?"
     SET_CURRent_MAX = ":CURRent:MAX {current}"
     GET_CURRent_MAX = ":CURRent:MAX?"
-    SET_CURRent_PROTection = ":CURRent:PROTection {curr}"
+    SET_CURRent_PROTection = ":CURRent:PROTection {current}"
     GET_CURRent_PROTection = ":CURRent:PROTection?"
     SET_CURRent_PROTection_STATE = ":CURRent:PROTection:STATe {state}"
     GET_CURRent_PROTection_STATE = ":CURRent:PROTection:STATe?"
@@ -72,6 +72,8 @@ class WPS300S(VISA_INSTRUMENT):
         super().__init__(visa_port, connection_type)
         self.enable_remote()
         self.slew_rate = 0.15 # Need to measure
+        self.now_voltage = 0
+        self.now_current = 0
         self.get_setup()
         print(self.now_voltage, self.now_current)
 
@@ -99,6 +101,7 @@ class WPS300S(VISA_INSTRUMENT):
         else:
             return n
 
+    # Basic commands
     def enable_remote(self):
         cmd = SYSTem.SET_SYSTem_REMote.value
         self.write(command=cmd)
@@ -162,19 +165,44 @@ class WPS300S(VISA_INSTRUMENT):
         result = self.query(command=cmd)
         print(f"Actual Power: {result}")
         return float(result)
+
+    def get_actual_vcm(self):
+        cmd = MEASure.GET_MEASure_VCM.value
+        result = self.query(command=cmd)
+        print(f"Actual VCM: {result}")
+        return float(result)
     
     def enable_output(self):
         cmd = OUTPut.SET_OUTPut.value.format(state=1)
         self.write(command=cmd)
-        
         time.sleep(self.now_voltage * self.slew_rate)
          
     
     def disable_output(self):
         cmd = OUTPut.SET_OUTPut.value.format(state=0)
         self.write(command=cmd)
-
         time.sleep(self.now_voltage * self.slew_rate)
+
+    # Protection command
+    def set_ovp(self, voltage):
+        cmd = VOLTage.SET_VOLTage_PROTection.value.format(voltage=voltage)
+        self.write(command=cmd)
+
+        state = self.query(command=VOLTage.GET_VOLTage_PROTection_STATE.value)
+        print(state)
+
+    def set_ocp(self, current):
+        cmd = CURRent.SET_CURRent_PROTection.value.format(current=current)
+        self.write(command=cmd)
+
+        state = self.query(command=CURRent.GET_CURRent_PROTection_STATE.value)
+        print(state)
+
+
+    def setup_protection(self, ovp=0.0, ocp=0.0):
+        self.set_ovp(voltage=ovp)
+        self.set_ocp(current=ocp)
+
 
 
 
@@ -193,10 +221,12 @@ if __name__ == '__main__':
     instr.get_actual_voltage()
     instr.get_actual_current()
     instr.get_actual_power()
+    instr.get_actual_vcm()
     instr.disable_output()
     instr.get_actual_voltage()
     instr.get_actual_current()
     instr.get_actual_power()
+    instr.get_actual_vcm()
     
     # instr.disable_beeper()
     # instr.controller.close()
