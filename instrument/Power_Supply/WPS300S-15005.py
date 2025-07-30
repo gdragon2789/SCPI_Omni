@@ -226,7 +226,7 @@ if __name__ == '__main__':
     scanner = PyVISAScanner()
     # scanner.scan_instruments()
     connect_type, port = scanner.scan_for_instruments(expected_id="WPS300S-15005")
-
+    print(DEBUG_MESSAGE)
     instr = WPS300S(visa_port=port, connection_type=connect_type)
     instr.enable_remote()
     instr.enable_beeper()

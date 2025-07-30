@@ -5,7 +5,7 @@ import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Lên 2 cấp để đến thư mục SCPI_Omni
-parent_dir = os.path.abspath(os.path.join(current_dir,".." ,".."))
+parent_dir = os.path.abspath(os.path.join(current_dir,".." ,".." ,".."))
 
 # Thêm vào sys.path nếu chưa có
 if parent_dir not in sys.path:
@@ -231,8 +231,11 @@ if __name__ == '__main__':
     instr.enable_remote()
     instr.enable_beeper()
     instr.setup(volt=12.0, curr=1.0)
+    time.sleep(2)
     instr.setup(volt=24.0, curr=1.0)
+    time.sleep(2)
     instr.setup(volt=48.0, curr=1.0)
+    time.sleep(2)
     instr.enable_output()
     instr.get_actual_voltage()
     instr.get_actual_current()
