@@ -1,6 +1,5 @@
 from PySide6.QtWidgets import QApplication, QWidget
-from app.WPS300S.gui.WPS300S_interface import Ui_MainApp  # This is the generated class
-from backend.backend import WPS300S
+from gui.WPS300S_interface import Ui_MainApp  # This is the generated class
 
 class MyApp(QWidget):
     def __init__(self, device=None):
@@ -9,6 +8,9 @@ class MyApp(QWidget):
         self.ui.setupUi(self)  # Setup the UI on this QWidget
         self.device = device
         self.ui.stackedWidget.setCurrentIndex(0)
+    
+    def display_set_value(self):
+        self.ui.
 
 if __name__ == '__main__':
     import sys

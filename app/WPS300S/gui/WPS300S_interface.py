@@ -18,7 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLCDNumber,
     QLabel, QLineEdit, QPushButton, QSizePolicy,
     QStackedWidget, QVBoxLayout, QWidget)
-import app.WPS300S.gui.resources_rc
+import gui.resources_rc
 
 class Ui_MainApp(object):
     def setupUi(self, MainApp):
