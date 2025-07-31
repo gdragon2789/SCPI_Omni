@@ -10,7 +10,9 @@ class MyApp(QWidget):
         self.ui.stackedWidget.setCurrentIndex(0)
     
     def display_set_value(self):
-        self.ui.
+        setup = self.device.get_setup()
+        self.ui.setupVoltageDisplay.display(setup[0])
+        self.ui.setupCurrentDisplay.display(setup[1])
 
 if __name__ == '__main__':
     import sys
