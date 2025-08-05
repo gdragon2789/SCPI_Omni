@@ -47,7 +47,7 @@ class VISA_INSTRUMENT:
 
     def close(self):
         self.controller.close()
-        self.timing.soft_delay()
+        self.timing.delay()
 
 
     # IEEE 488.2 Common Commands

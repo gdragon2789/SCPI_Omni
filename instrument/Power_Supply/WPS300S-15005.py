@@ -50,7 +50,7 @@ class VOLTage(Enum):
     GET_VOLTage_MIN = ":VOLTage:MIN?"
     SET_VOLTage_MAX = ":VOLTage:MAX {voltage}"
     GET_VOLTage_MAX = ":VOLTage:MAX?"
-    SET_VOLTage_PROTection = ":VOLTage:PROTection {volt}"
+    SET_VOLTage_PROTection = ":VOLTage:PROTection {voltage}"
     GET_VOLTage_PROTection = ":VOLTage:PROTection?"
     SET_VOLTage_PROTection_STATE = ":VOLTage:PROTection:STATe {state}"
     GET_VOLTage_PROTection_STATE = ":VOLTage:PROTection:STATe?"
@@ -62,7 +62,7 @@ class CURRent(Enum):
     GET_CURRent_MIN = ":CURRent:MIN?"
     SET_CURRent_MAX = ":CURRent:MAX {current}"
     GET_CURRent_MAX = ":CURRent:MAX?"
-    SET_CURRent_PROTection = ":CURRent:PROTection {curr}"
+    SET_CURRent_PROTection = ":CURRent:PROTection {current}"
     GET_CURRent_PROTection = ":CURRent:PROTection?"
     SET_CURRent_PROTection_STATE = ":CURRent:PROTection:STATe {state}"
     GET_CURRent_PROTection_STATE = ":CURRent:PROTection:STATe?"
@@ -71,7 +71,11 @@ class WPS300S(VISA_INSTRUMENT):
     def __init__(self, visa_port=None, connection_type=None):
         super().__init__(visa_port, connection_type)
         self.enable_remote()
-        self.slew_rate = 0.5 # Need to measure
+        self.slew_rate = 0.15 # Need to measure
+        self.now_voltage = 0
+        self.now_current = 0
+        self.get_setup()
+        print(self.now_voltage, self.now_current)
 
     def device_validator(self,command, result):
         res = self.query(command=command)
@@ -97,6 +101,7 @@ class WPS300S(VISA_INSTRUMENT):
         else:
             return n
 
+    # Basic commands
     def enable_remote(self):
         cmd = SYSTem.SET_SYSTem_REMote.value
         self.write(command=cmd)
@@ -125,12 +130,15 @@ class WPS300S(VISA_INSTRUMENT):
         cmd = APPLy.GET_APPLy.value
         results =self.query(command=cmd).split(sep=",")
         float_list = [float(x) for x in results]
+        self.now_voltage = float_list[0]
+        self.now_current = float_list[1]
         return float_list
+    
 
     def setup(self,volt=0.0, curr=0.0):
         cmd = APPLy.SET_APPLy.value.format(voltage=volt, current=curr)
         self.write(command=cmd)
-
+            
         #check the status
         results = self.get_setup()
         if results[0] == volt and results[1] == curr:
@@ -143,21 +151,74 @@ class WPS300S(VISA_INSTRUMENT):
     def get_actual_voltage(self):
         cmd = MEASure.GET_MEASure_VOLTage.value
         result = self.query(command=cmd)
+        print(f"Actual Voltage: {result}")
         return float(result)
 
     def get_actual_current(self):
         cmd = MEASure.GET_MEASure_CURRent.value
         result = self.query(command=cmd)
+        print(f"Actual Current: {result}")
         return float(result)
 
     def get_actual_power(self):
         cmd = MEASure.GET_MEASure_POWER.value
         result = self.query(command=cmd)
+        print(f"Actual Power: {result}")
         return float(result)
 
+    def get_actual_vcm(self):
+        cmd = MEASure.GET_MEASure_VCM.value
+        results =self.query(command=cmd).split(sep=",")
+        float_list = [float(x) for x in results]
+        print(f"Actual VCM: {float_list}")
+        return float_list
+    
+    def enable_output(self):
+        cmd = OUTPut.SET_OUTPut.value.format(state=1)
+        self.write(command=cmd)
+        time.sleep(self.now_voltage * self.slew_rate)
+         
+    
+    def disable_output(self):
+        cmd = OUTPut.SET_OUTPut.value.format(state=0)
+        self.write(command=cmd)
+        time.sleep(self.now_voltage * self.slew_rate)
+
+    # Protection command
+    def set_ovp(self, voltage):
+        cmd = VOLTage.SET_VOLTage_PROTection.value.format(voltage=voltage)
+        self.write(command=cmd)
+
+        state = self.query(command=VOLTage.GET_VOLTage_PROTection_STATE.value)
+        print(state)
+
+    def set_ocp(self, current):
+        cmd = CURRent.SET_CURRent_PROTection.value.format(current=current)
+        self.write(command=cmd)
+
+        state = self.query(command=CURRent.GET_CURRent_PROTection_STATE.value)
+        print(state)
 
 
+    def setup_protection(self, ovp=0.0, ocp=0.0):
+        self.set_ovp(voltage=ovp)
+        self.set_ocp(current=ocp)
 
+    def min_setup(self, min_volt=0.0, min_curr=0.0):
+        cmd = VOLTage.SET_VOLTage_MIN.value.format(voltage=min_volt)
+        self.write(command=cmd)
+        cmd = CURRent.SET_CURRent_MIN.value.format(current=min_curr)
+        self.write(command=cmd)
+
+    def max_setup(self, max_volt=0.0, max_curr=0.0):
+        cmd = VOLTage.SET_VOLTage_MAX.value.format(voltage=max_volt)
+        self.write(command=cmd)
+        cmd = CURRent.SET_CURRent_MAX.value.format(current=max_curr)
+        self.write(command=cmd)
+
+    def min_max_setup(self, min_volt=0.0, min_curr=0.0, max_volt=0.0, max_curr=0.0):
+        self.min_setup(min_volt=min_volt, min_curr=min_curr)
+        self.max_setup(max_volt=max_volt, max_curr=max_curr)
 
 
 
@@ -165,12 +226,23 @@ if __name__ == '__main__':
     scanner = PyVISAScanner()
     # scanner.scan_instruments()
     connect_type, port = scanner.scan_for_instruments(expected_id="WPS300S-15005")
-
+    print(DEBUG_MESSAGE)
     instr = WPS300S(visa_port=port, connection_type=connect_type)
     instr.enable_remote()
     instr.enable_beeper()
     instr.setup(volt=12.0, curr=1.0)
     instr.setup(volt=24.0, curr=1.0)
     instr.setup(volt=48.0, curr=1.0)
+    instr.enable_output()
+    instr.get_actual_voltage()
+    instr.get_actual_current()
+    instr.get_actual_power()
+    instr.get_actual_vcm()
+    instr.disable_output()
+    instr.get_actual_voltage()
+    instr.get_actual_current()
+    instr.get_actual_power()
+    instr.get_actual_vcm()
+    
     # instr.disable_beeper()
     # instr.controller.close()
