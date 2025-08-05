@@ -52,6 +52,7 @@ class SERIAL_Controller:
         self._connection.write(command.encode())
 
     def query(self, command: str) -> str:
+        self._connection.reset_input_buffer()
         self.write(command)
         recv_bytes = b""
         start_time = time.time()

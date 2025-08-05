@@ -14,6 +14,6 @@ class TimingProfile:
         if self.query_delay > 0:
             time.sleep(self.query_delay)
 
-    def soft_delay(self):
+    def delay(self):
         if self.soft_delay > 0:
             time.sleep(self.soft_delay)

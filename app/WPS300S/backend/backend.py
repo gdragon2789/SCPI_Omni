@@ -128,61 +128,62 @@ class WPS300S(VISA_INSTRUMENT):
 
     def get_setup(self):
         cmd = APPLy.GET_APPLy.value
-        results =self.query(command=cmd).split(sep=",")
-        float_list = [float(x) for x in results]
-        self.now_voltage = float_list[0]
-        self.now_current = float_list[1]
+        try:
+            results =self.query(command=cmd).split(sep=",")
+            if len(results) != 2:
+                raise ValueError("Can not get the setup")
+            float_list = [float(x) for x in results]
+            self.now_voltage = float_list[0]
+            self.now_current = float_list[1]
+        except Exception as e:
+            print(e)
+            float_list = [self.now_voltage, self.now_current]
         return float_list
+
+    def get_output(self):
+        cmd = OUTPut.GET_OUTPut.value
+        result = self.query(command=cmd)
+        return result
     
 
     def setup(self,volt=0.0, curr=0.0):
         cmd = APPLy.SET_APPLy.value.format(voltage=volt, current=curr)
         self.write(command=cmd)
-            
-        #check the status
-        results = self.get_setup()
-        if results[0] == volt and results[1] == curr:
-            print("Success")
-            return True
-        else:
-            print("Failed")
-            return False
 
     def get_actual_voltage(self):
         cmd = MEASure.GET_MEASure_VOLTage.value
         result = self.query(command=cmd)
-        print(f"Actual Voltage: {result}")
         return float(result)
 
     def get_actual_current(self):
         cmd = MEASure.GET_MEASure_CURRent.value
         result = self.query(command=cmd)
-        print(f"Actual Current: {result}")
         return float(result)
 
     def get_actual_power(self):
         cmd = MEASure.GET_MEASure_POWER.value
         result = self.query(command=cmd)
-        print(f"Actual Power: {result}")
         return float(result)
 
     def get_actual_vcm(self):
         cmd = MEASure.GET_MEASure_VCM.value
-        results =self.query(command=cmd).split(sep=",")
-        float_list = [float(x) for x in results]
-        print(f"Actual VCM: {float_list}")
+        try:
+            results =self.query(command=cmd).split(sep=",")
+            if len(results) != 2:
+                raise ValueError("Can not get the vcm")
+            float_list = [float(x) for x in results]
+        except Exception as e:
+            print(e)
+            float_list = [0.0, 0.0]
         return float_list
     
     def enable_output(self):
         cmd = OUTPut.SET_OUTPut.value.format(state=1)
         self.write(command=cmd)
-        time.sleep(self.now_voltage * self.slew_rate)
-         
-    
+
     def disable_output(self):
         cmd = OUTPut.SET_OUTPut.value.format(state=0)
         self.write(command=cmd)
-        time.sleep(self.now_voltage * self.slew_rate)
 
     # Protection command
     def set_ovp(self, voltage):
@@ -219,6 +220,9 @@ class WPS300S(VISA_INSTRUMENT):
     def min_max_setup(self, min_volt=0.0, min_curr=0.0, max_volt=0.0, max_curr=0.0):
         self.min_setup(min_volt=min_volt, min_curr=min_curr)
         self.max_setup(max_volt=max_volt, max_curr=max_curr)
+
+
+
 
 
 

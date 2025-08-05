@@ -113,7 +113,7 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QPushButton" name="defaultSetup">
+          <widget class="QPushButton" name="basicButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -121,7 +121,53 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Default Setup</string>
+            <string>BASIC</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resources.qrc">
+             <normaloff>:/icons/solar-linear-icons/compass-square.svg</normaloff>:/icons/solar-linear-icons/compass-square.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="graphButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>GRAPH</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resources.qrc">
+             <normaloff>:/icons/solar-linear-icons/graph.svg</normaloff>:/icons/solar-linear-icons/graph.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="defaultSetupButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>DEFAULT</string>
            </property>
            <property name="icon">
             <iconset resource="resources.qrc">
@@ -136,7 +182,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="logCSV">
+          <widget class="QPushButton" name="logCSVButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -144,7 +190,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Log CSV</string>
+            <string>LOG</string>
            </property>
            <property name="icon">
             <iconset resource="resources.qrc">
@@ -173,6 +219,18 @@
       <enum>QFrame::Shadow::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QFrame" name="optionPanel">
         <property name="frameShape">
@@ -183,16 +241,16 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <property name="leftMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <property name="topMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <item>
           <widget class="QFrame" name="menuPanel">
@@ -331,16 +389,16 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <property name="leftMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <property name="topMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
@@ -350,10 +408,22 @@
             </font>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="basicView">
             <layout class="QVBoxLayout" name="verticalLayout_5">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item alignment="Qt::AlignmentFlag::AlignTop">
               <widget class="QFrame" name="header">
                <property name="frameShape">
@@ -391,6 +461,18 @@
                 <enum>QFrame::Shadow::Raised</enum>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
                 <item>
                  <widget class="QFrame" name="setupInfor">
                   <property name="frameShape">
@@ -401,16 +483,16 @@
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_9">
                    <property name="leftMargin">
-                    <number>3</number>
+                    <number>0</number>
                    </property>
                    <property name="topMargin">
-                    <number>3</number>
+                    <number>0</number>
                    </property>
                    <property name="rightMargin">
-                    <number>3</number>
+                    <number>0</number>
                    </property>
                    <property name="bottomMargin">
-                    <number>3</number>
+                    <number>0</number>
                    </property>
                    <item>
                     <widget class="QFrame" name="frame_16">
@@ -456,16 +538,16 @@
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_13">
                       <property name="leftMargin">
-                       <number>3</number>
+                       <number>0</number>
                       </property>
                       <property name="topMargin">
-                       <number>3</number>
+                       <number>0</number>
                       </property>
                       <property name="rightMargin">
-                       <number>3</number>
+                       <number>0</number>
                       </property>
                       <property name="bottomMargin">
-                       <number>3</number>
+                       <number>0</number>
                       </property>
                       <item>
                        <widget class="QFrame" name="frame_20">
@@ -477,21 +559,21 @@
                         </property>
                         <layout class="QHBoxLayout" name="horizontalLayout_8">
                          <property name="leftMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <property name="topMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <property name="rightMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <property name="bottomMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <item alignment="Qt::AlignmentFlag::AlignLeft">
                           <widget class="QLabel" name="label_10">
                            <property name="text">
-                            <string>Voltage</string>
+                            <string> Voltage</string>
                            </property>
                           </widget>
                          </item>
@@ -504,10 +586,13 @@
                             </sizepolicy>
                            </property>
                            <property name="smallDecimalPoint">
-                            <bool>false</bool>
+                            <bool>true</bool>
                            </property>
                            <property name="digitCount">
-                            <number>5</number>
+                            <number>7</number>
+                           </property>
+                           <property name="intValue" stdset="0">
+                            <number>0</number>
                            </property>
                           </widget>
                          </item>
@@ -524,21 +609,21 @@
                         </property>
                         <layout class="QHBoxLayout" name="horizontalLayout_9">
                          <property name="leftMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <property name="topMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <property name="rightMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <property name="bottomMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <item alignment="Qt::AlignmentFlag::AlignLeft">
                           <widget class="QLabel" name="label_11">
                            <property name="text">
-                            <string>Current</string>
+                            <string> Current</string>
                            </property>
                           </widget>
                          </item>
@@ -549,6 +634,12 @@
                              <horstretch>0</horstretch>
                              <verstretch>0</verstretch>
                             </sizepolicy>
+                           </property>
+                           <property name="smallDecimalPoint">
+                            <bool>true</bool>
+                           </property>
+                           <property name="digitCount">
+                            <number>7</number>
                            </property>
                           </widget>
                          </item>
@@ -571,16 +662,16 @@
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_10">
                    <property name="leftMargin">
-                    <number>3</number>
+                    <number>0</number>
                    </property>
                    <property name="topMargin">
-                    <number>3</number>
+                    <number>0</number>
                    </property>
                    <property name="rightMargin">
-                    <number>3</number>
+                    <number>0</number>
                    </property>
                    <property name="bottomMargin">
-                    <number>3</number>
+                    <number>0</number>
                    </property>
                    <item>
                     <widget class="QFrame" name="frame_18">
@@ -591,6 +682,9 @@
                       <enum>QFrame::Shadow::Raised</enum>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_12">
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
                       <item alignment="Qt::AlignmentFlag::AlignTop">
                        <widget class="QLabel" name="label_8">
                         <property name="font">
@@ -626,16 +720,16 @@
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_14">
                       <property name="leftMargin">
-                       <number>3</number>
+                       <number>0</number>
                       </property>
                       <property name="topMargin">
-                       <number>3</number>
+                       <number>0</number>
                       </property>
                       <property name="rightMargin">
-                       <number>3</number>
+                       <number>0</number>
                       </property>
                       <property name="bottomMargin">
-                       <number>3</number>
+                       <number>0</number>
                       </property>
                       <item>
                        <widget class="QFrame" name="frame_22">
@@ -650,18 +744,18 @@
                           <number>3</number>
                          </property>
                          <property name="topMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <property name="rightMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <property name="bottomMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <item alignment="Qt::AlignmentFlag::AlignLeft">
                           <widget class="QLabel" name="label_12">
                            <property name="text">
-                            <string>Voltage</string>
+                            <string> Voltage</string>
                            </property>
                           </widget>
                          </item>
@@ -672,6 +766,12 @@
                              <horstretch>0</horstretch>
                              <verstretch>0</verstretch>
                             </sizepolicy>
+                           </property>
+                           <property name="smallDecimalPoint">
+                            <bool>true</bool>
+                           </property>
+                           <property name="digitCount">
+                            <number>7</number>
                            </property>
                           </widget>
                          </item>
@@ -688,21 +788,21 @@
                         </property>
                         <layout class="QHBoxLayout" name="horizontalLayout_10">
                          <property name="leftMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <property name="topMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <property name="rightMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <property name="bottomMargin">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <item alignment="Qt::AlignmentFlag::AlignLeft">
                           <widget class="QLabel" name="label_13">
                            <property name="text">
-                            <string>Current</string>
+                            <string> Current </string>
                            </property>
                           </widget>
                          </item>
@@ -713,6 +813,12 @@
                              <horstretch>0</horstretch>
                              <verstretch>0</verstretch>
                             </sizepolicy>
+                           </property>
+                           <property name="smallDecimalPoint">
+                            <bool>true</bool>
+                           </property>
+                           <property name="digitCount">
+                            <number>7</number>
                            </property>
                           </widget>
                          </item>
@@ -730,8 +836,20 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="page_2">
+           <widget class="QWidget" name="graphView">
             <layout class="QVBoxLayout" name="verticalLayout_7">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item>
               <widget class="QFrame" name="frame_12">
                <property name="frameShape">
@@ -768,6 +886,23 @@
                <property name="frameShadow">
                 <enum>QFrame::Shadow::Raised</enum>
                </property>
+               <layout class="QVBoxLayout" name="verticalLayout_16">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QChartView" name="graphicsViewDisplay"/>
+                </item>
+               </layout>
               </widget>
              </item>
             </layout>
@@ -787,19 +922,25 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <property name="leftMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <property name="topMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>3</number>
+          <number>0</number>
          </property>
          <item>
           <widget class="QFrame" name="setup">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="frameShape">
             <enum>QFrame::Shape::StyledPanel</enum>
            </property>
@@ -829,6 +970,12 @@
             </item>
             <item>
              <widget class="QPushButton" name="setupButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>Set</string>
               </property>
@@ -839,6 +986,12 @@
          </item>
          <item>
           <widget class="QFrame" name="outPutControl">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="frameShape">
             <enum>QFrame::Shape::StyledPanel</enum>
            </property>
@@ -871,6 +1024,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">qchartview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="resources.qrc"/>
  </resources>

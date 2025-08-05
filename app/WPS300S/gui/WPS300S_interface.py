@@ -8,6 +8,7 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
+from PySide6.QtCharts import QChartView
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -18,7 +19,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLCDNumber,
     QLabel, QLineEdit, QPushButton, QSizePolicy,
     QStackedWidget, QVBoxLayout, QWidget)
-import gui.resources_rc
+import app.WPS300S.gui.resources_rc
 
 class Ui_MainApp(object):
     def setupUi(self, MainApp):
@@ -73,30 +74,52 @@ class Ui_MainApp(object):
         self.setUpPanel.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_2 = QVBoxLayout(self.setUpPanel)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.defaultSetup = QPushButton(self.setUpPanel)
-        self.defaultSetup.setObjectName(u"defaultSetup")
+        self.basicButton = QPushButton(self.setUpPanel)
+        self.basicButton.setObjectName(u"basicButton")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.defaultSetup.sizePolicy().hasHeightForWidth())
-        self.defaultSetup.setSizePolicy(sizePolicy1)
+        sizePolicy1.setHeightForWidth(self.basicButton.sizePolicy().hasHeightForWidth())
+        self.basicButton.setSizePolicy(sizePolicy1)
         icon = QIcon()
-        icon.addFile(u":/icons/solar-linear-icons/restart.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.defaultSetup.setIcon(icon)
-        self.defaultSetup.setIconSize(QSize(30, 30))
+        icon.addFile(u":/icons/solar-linear-icons/compass-square.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.basicButton.setIcon(icon)
+        self.basicButton.setIconSize(QSize(30, 30))
 
-        self.verticalLayout_2.addWidget(self.defaultSetup)
+        self.verticalLayout_2.addWidget(self.basicButton)
 
-        self.logCSV = QPushButton(self.setUpPanel)
-        self.logCSV.setObjectName(u"logCSV")
-        sizePolicy1.setHeightForWidth(self.logCSV.sizePolicy().hasHeightForWidth())
-        self.logCSV.setSizePolicy(sizePolicy1)
+        self.graphButton = QPushButton(self.setUpPanel)
+        self.graphButton.setObjectName(u"graphButton")
+        sizePolicy1.setHeightForWidth(self.graphButton.sizePolicy().hasHeightForWidth())
+        self.graphButton.setSizePolicy(sizePolicy1)
         icon1 = QIcon()
-        icon1.addFile(u":/icons/solar-linear-icons/folder-with-files.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.logCSV.setIcon(icon1)
-        self.logCSV.setIconSize(QSize(30, 30))
+        icon1.addFile(u":/icons/solar-linear-icons/graph.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.graphButton.setIcon(icon1)
+        self.graphButton.setIconSize(QSize(30, 30))
 
-        self.verticalLayout_2.addWidget(self.logCSV)
+        self.verticalLayout_2.addWidget(self.graphButton)
+
+        self.defaultSetupButton = QPushButton(self.setUpPanel)
+        self.defaultSetupButton.setObjectName(u"defaultSetupButton")
+        sizePolicy1.setHeightForWidth(self.defaultSetupButton.sizePolicy().hasHeightForWidth())
+        self.defaultSetupButton.setSizePolicy(sizePolicy1)
+        icon2 = QIcon()
+        icon2.addFile(u":/icons/solar-linear-icons/restart.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.defaultSetupButton.setIcon(icon2)
+        self.defaultSetupButton.setIconSize(QSize(30, 30))
+
+        self.verticalLayout_2.addWidget(self.defaultSetupButton)
+
+        self.logCSVButton = QPushButton(self.setUpPanel)
+        self.logCSVButton.setObjectName(u"logCSVButton")
+        sizePolicy1.setHeightForWidth(self.logCSVButton.sizePolicy().hasHeightForWidth())
+        self.logCSVButton.setSizePolicy(sizePolicy1)
+        icon3 = QIcon()
+        icon3.addFile(u":/icons/solar-linear-icons/folder-with-files.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.logCSVButton.setIcon(icon3)
+        self.logCSVButton.setIconSize(QSize(30, 30))
+
+        self.verticalLayout_2.addWidget(self.logCSVButton)
 
 
         self.verticalLayout.addWidget(self.setUpPanel)
@@ -109,14 +132,16 @@ class Ui_MainApp(object):
         self.rightPanel.setFrameShape(QFrame.Shape.StyledPanel)
         self.rightPanel.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_3 = QVBoxLayout(self.rightPanel)
+        self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(-1, 0, 0, 0)
         self.optionPanel = QFrame(self.rightPanel)
         self.optionPanel.setObjectName(u"optionPanel")
         self.optionPanel.setFrameShape(QFrame.Shape.StyledPanel)
         self.optionPanel.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_3 = QHBoxLayout(self.optionPanel)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(3, 3, 3, 3)
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.menuPanel = QFrame(self.optionPanel)
         self.menuPanel.setObjectName(u"menuPanel")
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
@@ -130,9 +155,9 @@ class Ui_MainApp(object):
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
         self.menuButton = QPushButton(self.menuPanel)
         self.menuButton.setObjectName(u"menuButton")
-        icon2 = QIcon()
-        icon2.addFile(u":/icons/solar-linear-icons/menu-dots-circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.menuButton.setIcon(icon2)
+        icon4 = QIcon()
+        icon4.addFile(u":/icons/solar-linear-icons/menu-dots-circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.menuButton.setIcon(icon4)
 
         self.horizontalLayout_13.addWidget(self.menuButton, 0, Qt.AlignmentFlag.AlignLeft)
 
@@ -174,25 +199,25 @@ class Ui_MainApp(object):
         self.horizontalLayout_12.setContentsMargins(3, 3, 3, 3)
         self.minimize = QPushButton(self.appInterface)
         self.minimize.setObjectName(u"minimize")
-        icon3 = QIcon()
-        icon3.addFile(u":/icons/solar-linear-icons/minus-circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.minimize.setIcon(icon3)
+        icon5 = QIcon()
+        icon5.addFile(u":/icons/solar-linear-icons/minus-circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.minimize.setIcon(icon5)
 
         self.horizontalLayout_12.addWidget(self.minimize)
 
         self.maximize = QPushButton(self.appInterface)
         self.maximize.setObjectName(u"maximize")
-        icon4 = QIcon()
-        icon4.addFile(u":/icons/solar-linear-icons/circle-top-up.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.maximize.setIcon(icon4)
+        icon6 = QIcon()
+        icon6.addFile(u":/icons/solar-linear-icons/circle-top-up.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.maximize.setIcon(icon6)
 
         self.horizontalLayout_12.addWidget(self.maximize)
 
         self.quit = QPushButton(self.appInterface)
         self.quit.setObjectName(u"quit")
-        icon5 = QIcon()
-        icon5.addFile(u":/icons/solar-linear-icons/exit.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.quit.setIcon(icon5)
+        icon7 = QIcon()
+        icon7.addFile(u":/icons/solar-linear-icons/exit.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.quit.setIcon(icon7)
 
         self.horizontalLayout_12.addWidget(self.quit)
 
@@ -208,7 +233,7 @@ class Ui_MainApp(object):
         self.mainFrame.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_4 = QVBoxLayout(self.mainFrame)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setContentsMargins(3, 3, 3, 3)
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.stackedWidget = QStackedWidget(self.mainFrame)
         self.stackedWidget.setObjectName(u"stackedWidget")
         font1 = QFont()
@@ -218,6 +243,7 @@ class Ui_MainApp(object):
         self.basicView.setObjectName(u"basicView")
         self.verticalLayout_5 = QVBoxLayout(self.basicView)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.header = QFrame(self.basicView)
         self.header.setObjectName(u"header")
         self.header.setFrameShape(QFrame.Shape.StyledPanel)
@@ -241,13 +267,14 @@ class Ui_MainApp(object):
         self.displayInfor.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_6 = QHBoxLayout(self.displayInfor)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.setupInfor = QFrame(self.displayInfor)
         self.setupInfor.setObjectName(u"setupInfor")
         self.setupInfor.setFrameShape(QFrame.Shape.StyledPanel)
         self.setupInfor.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_9 = QVBoxLayout(self.setupInfor)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
-        self.verticalLayout_9.setContentsMargins(3, 3, 3, 3)
+        self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
         self.frame_16 = QFrame(self.setupInfor)
         self.frame_16.setObjectName(u"frame_16")
         self.frame_16.setFrameShape(QFrame.Shape.StyledPanel)
@@ -275,14 +302,14 @@ class Ui_MainApp(object):
         self.frame_17.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_13 = QVBoxLayout(self.frame_17)
         self.verticalLayout_13.setObjectName(u"verticalLayout_13")
-        self.verticalLayout_13.setContentsMargins(3, 3, 3, 3)
+        self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
         self.frame_20 = QFrame(self.frame_17)
         self.frame_20.setObjectName(u"frame_20")
         self.frame_20.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_20.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_8 = QHBoxLayout(self.frame_20)
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.horizontalLayout_8.setContentsMargins(3, 3, 3, 3)
+        self.horizontalLayout_8.setContentsMargins(0, 0, 0, 0)
         self.label_10 = QLabel(self.frame_20)
         self.label_10.setObjectName(u"label_10")
 
@@ -295,8 +322,9 @@ class Ui_MainApp(object):
         sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.setupVoltageDisplay.sizePolicy().hasHeightForWidth())
         self.setupVoltageDisplay.setSizePolicy(sizePolicy4)
-        self.setupVoltageDisplay.setSmallDecimalPoint(False)
-        self.setupVoltageDisplay.setDigitCount(5)
+        self.setupVoltageDisplay.setSmallDecimalPoint(True)
+        self.setupVoltageDisplay.setDigitCount(7)
+        self.setupVoltageDisplay.setProperty(u"intValue", 0)
 
         self.horizontalLayout_8.addWidget(self.setupVoltageDisplay)
 
@@ -309,7 +337,7 @@ class Ui_MainApp(object):
         self.frame_21.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_9 = QHBoxLayout(self.frame_21)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.horizontalLayout_9.setContentsMargins(3, 3, 3, 3)
+        self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
         self.label_11 = QLabel(self.frame_21)
         self.label_11.setObjectName(u"label_11")
 
@@ -319,6 +347,8 @@ class Ui_MainApp(object):
         self.setupCurrentDisplay.setObjectName(u"setupCurrentDisplay")
         sizePolicy4.setHeightForWidth(self.setupCurrentDisplay.sizePolicy().hasHeightForWidth())
         self.setupCurrentDisplay.setSizePolicy(sizePolicy4)
+        self.setupCurrentDisplay.setSmallDecimalPoint(True)
+        self.setupCurrentDisplay.setDigitCount(7)
 
         self.horizontalLayout_9.addWidget(self.setupCurrentDisplay)
 
@@ -337,13 +367,14 @@ class Ui_MainApp(object):
         self.outputInfor.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_10 = QVBoxLayout(self.outputInfor)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
-        self.verticalLayout_10.setContentsMargins(3, 3, 3, 3)
+        self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
         self.frame_18 = QFrame(self.outputInfor)
         self.frame_18.setObjectName(u"frame_18")
         self.frame_18.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_18.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_12 = QVBoxLayout(self.frame_18)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.verticalLayout_12.setContentsMargins(0, -1, -1, -1)
         self.label_8 = QLabel(self.frame_18)
         self.label_8.setObjectName(u"label_8")
         self.label_8.setFont(font2)
@@ -362,14 +393,14 @@ class Ui_MainApp(object):
         self.frame_19.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_14 = QVBoxLayout(self.frame_19)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
-        self.verticalLayout_14.setContentsMargins(3, 3, 3, 3)
+        self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.frame_22 = QFrame(self.frame_19)
         self.frame_22.setObjectName(u"frame_22")
         self.frame_22.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_22.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_11 = QHBoxLayout(self.frame_22)
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.horizontalLayout_11.setContentsMargins(3, 3, 3, 3)
+        self.horizontalLayout_11.setContentsMargins(3, 0, 0, 0)
         self.label_12 = QLabel(self.frame_22)
         self.label_12.setObjectName(u"label_12")
 
@@ -379,6 +410,8 @@ class Ui_MainApp(object):
         self.outputVoltageDisplay.setObjectName(u"outputVoltageDisplay")
         sizePolicy4.setHeightForWidth(self.outputVoltageDisplay.sizePolicy().hasHeightForWidth())
         self.outputVoltageDisplay.setSizePolicy(sizePolicy4)
+        self.outputVoltageDisplay.setSmallDecimalPoint(True)
+        self.outputVoltageDisplay.setDigitCount(7)
 
         self.horizontalLayout_11.addWidget(self.outputVoltageDisplay)
 
@@ -391,7 +424,7 @@ class Ui_MainApp(object):
         self.frame_23.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_10 = QHBoxLayout(self.frame_23)
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
-        self.horizontalLayout_10.setContentsMargins(3, 3, 3, 3)
+        self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
         self.label_13 = QLabel(self.frame_23)
         self.label_13.setObjectName(u"label_13")
 
@@ -401,6 +434,8 @@ class Ui_MainApp(object):
         self.outputCurrentDisplay.setObjectName(u"outputCurrentDisplay")
         sizePolicy4.setHeightForWidth(self.outputCurrentDisplay.sizePolicy().hasHeightForWidth())
         self.outputCurrentDisplay.setSizePolicy(sizePolicy4)
+        self.outputCurrentDisplay.setSmallDecimalPoint(True)
+        self.outputCurrentDisplay.setDigitCount(7)
 
         self.horizontalLayout_10.addWidget(self.outputCurrentDisplay)
 
@@ -417,11 +452,12 @@ class Ui_MainApp(object):
         self.verticalLayout_5.addWidget(self.displayInfor)
 
         self.stackedWidget.addWidget(self.basicView)
-        self.page_2 = QWidget()
-        self.page_2.setObjectName(u"page_2")
-        self.verticalLayout_7 = QVBoxLayout(self.page_2)
+        self.graphView = QWidget()
+        self.graphView.setObjectName(u"graphView")
+        self.verticalLayout_7 = QVBoxLayout(self.graphView)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.frame_12 = QFrame(self.page_2)
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.frame_12 = QFrame(self.graphView)
         self.frame_12.setObjectName(u"frame_12")
         self.frame_12.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_12.setFrameShadow(QFrame.Shadow.Raised)
@@ -436,16 +472,24 @@ class Ui_MainApp(object):
 
         self.verticalLayout_7.addWidget(self.frame_12)
 
-        self.frame_13 = QFrame(self.page_2)
+        self.frame_13 = QFrame(self.graphView)
         self.frame_13.setObjectName(u"frame_13")
         sizePolicy.setHeightForWidth(self.frame_13.sizePolicy().hasHeightForWidth())
         self.frame_13.setSizePolicy(sizePolicy)
         self.frame_13.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_13.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_16 = QVBoxLayout(self.frame_13)
+        self.verticalLayout_16.setObjectName(u"verticalLayout_16")
+        self.verticalLayout_16.setContentsMargins(0, 0, 0, 0)
+        self.graphicsViewDisplay = QChartView(self.frame_13)
+        self.graphicsViewDisplay.setObjectName(u"graphicsViewDisplay")
+
+        self.verticalLayout_16.addWidget(self.graphicsViewDisplay)
+
 
         self.verticalLayout_7.addWidget(self.frame_13)
 
-        self.stackedWidget.addWidget(self.page_2)
+        self.stackedWidget.addWidget(self.graphView)
 
         self.verticalLayout_4.addWidget(self.stackedWidget)
 
@@ -458,9 +502,14 @@ class Ui_MainApp(object):
         self.basicSetup.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_4 = QHBoxLayout(self.basicSetup)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalLayout_4.setContentsMargins(3, 3, 3, 3)
+        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.setup = QFrame(self.basicSetup)
         self.setup.setObjectName(u"setup")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.setup.sizePolicy().hasHeightForWidth())
+        self.setup.setSizePolicy(sizePolicy5)
         self.setup.setFrameShape(QFrame.Shape.StyledPanel)
         self.setup.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_5 = QHBoxLayout(self.setup)
@@ -487,6 +536,8 @@ class Ui_MainApp(object):
 
         self.setupButton = QPushButton(self.setup)
         self.setupButton.setObjectName(u"setupButton")
+        sizePolicy3.setHeightForWidth(self.setupButton.sizePolicy().hasHeightForWidth())
+        self.setupButton.setSizePolicy(sizePolicy3)
 
         self.horizontalLayout_5.addWidget(self.setupButton)
 
@@ -495,6 +546,11 @@ class Ui_MainApp(object):
 
         self.outPutControl = QFrame(self.basicSetup)
         self.outPutControl.setObjectName(u"outPutControl")
+        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.outPutControl.sizePolicy().hasHeightForWidth())
+        self.outPutControl.setSizePolicy(sizePolicy6)
         self.outPutControl.setFrameShape(QFrame.Shape.StyledPanel)
         self.outPutControl.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_7 = QHBoxLayout(self.outPutControl)
@@ -521,7 +577,7 @@ class Ui_MainApp(object):
 
         self.retranslateUi(MainApp)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainApp)
@@ -531,8 +587,10 @@ class Ui_MainApp(object):
         MainApp.setWindowTitle(QCoreApplication.translate("MainApp", u"Form", None))
         self.logo.setText("")
         self.appName.setText(QCoreApplication.translate("MainApp", u"WPS150S", None))
-        self.defaultSetup.setText(QCoreApplication.translate("MainApp", u"Default Setup", None))
-        self.logCSV.setText(QCoreApplication.translate("MainApp", u"Log CSV", None))
+        self.basicButton.setText(QCoreApplication.translate("MainApp", u"BASIC", None))
+        self.graphButton.setText(QCoreApplication.translate("MainApp", u"GRAPH", None))
+        self.defaultSetupButton.setText(QCoreApplication.translate("MainApp", u"DEFAULT", None))
+        self.logCSVButton.setText(QCoreApplication.translate("MainApp", u"LOG", None))
         self.menuButton.setText("")
         self.menuLabel.setText(QCoreApplication.translate("MainApp", u"MENU", None))
         self.display.setText(QCoreApplication.translate("MainApp", u"Main Screen", None))
@@ -541,11 +599,11 @@ class Ui_MainApp(object):
         self.quit.setText("")
         self.basicViewLabel.setText(QCoreApplication.translate("MainApp", u"Basic View", None))
         self.label_7.setText(QCoreApplication.translate("MainApp", u"Setup", None))
-        self.label_10.setText(QCoreApplication.translate("MainApp", u"Voltage", None))
-        self.label_11.setText(QCoreApplication.translate("MainApp", u"Current", None))
+        self.label_10.setText(QCoreApplication.translate("MainApp", u" Voltage", None))
+        self.label_11.setText(QCoreApplication.translate("MainApp", u" Current", None))
         self.label_8.setText(QCoreApplication.translate("MainApp", u"Output", None))
-        self.label_12.setText(QCoreApplication.translate("MainApp", u"Voltage", None))
-        self.label_13.setText(QCoreApplication.translate("MainApp", u"Current", None))
+        self.label_12.setText(QCoreApplication.translate("MainApp", u" Voltage", None))
+        self.label_13.setText(QCoreApplication.translate("MainApp", u" Current ", None))
         self.label_6.setText(QCoreApplication.translate("MainApp", u"Graph View", None))
         self.setupVoltageLabel.setText(QCoreApplication.translate("MainApp", u"Voltage", None))
         self.setupCurrentLabel.setText(QCoreApplication.translate("MainApp", u"Current", None))
