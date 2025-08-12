@@ -1,0 +1,383 @@
+from api.__init__ import *
+from decimal import Decimal
+import re
+
+class DeviceConst(Enum):
+    pass
+
+class MEASURE(Enum):
+    GET_MEASure_VOLTage_DC = ":MEASure:VOLTage:DC?"
+    GET_MEASure_CURRent_DC = ":MEASure:CURRent:DC?"
+    GET_MEASure_POWER_DC = ":MEASure:POWER:DC?"
+    GET_MEASure_RESistance = ":MEASure:RESistance:DC?"
+    GET_MEASure_EXTernal = ":MEASure:EXTernal?"
+
+class SOURce_COMMON(Enum):
+    SET_SOURce_INPUT_STATE = ":SOURce:INPUT:STATE {state}"
+    GET_SOURce_INPUT_STATE = ":SOURce:INPUT:STATE?"
+    SET_SOURce_SHORt_STATE = ":SOURce:SHORt:STATE {state}"
+    GET_SOURce_SHORt_STATE = ":SOURce:SHORt:STATE?"
+    SET_SOURce_FUNCtion_TRANsient = ":SOURce:FUNCtion:TRANsient {state}"
+    GET_SOURce_FUNCtion_TRANsient = ":SOURce:FUNCtion:TRANsient?"
+    SET_SOURce_FUNCtion = ":SOURce:FUNCtion {state}"
+    GET_SOURce_FUNCtion = ":SOURce:FUNCtion?"
+    GET_SOURce_TEST_STEP = ":SOURce:TEST:STEP?"
+    GET_SOURce_TEST_STOP = ":SOURce:TEST:STOP?"
+
+class SOURce_CURRent(Enum):
+    SET_SOURce_CURRent_LEVel_IMMediate = ":SOURce:CURRent:LEVel:IMMediate {value}"
+    GET_SOURce_CURRent_LEVel_IMMediate = ":SOURce:CURRent:LEVel:IMMediate?"
+    SET_SOURce_CURRent_IRANGe = ":SOURce:CURRent:IRANGe {value}"
+    GET_SOURce_CURRent_IRANGe = ":SOURce:CURRent:IRANGe?"
+    SET_SOURce_CURRent_VRANGe = ":SOURce:CURRent:VRANGe {value}"
+    GET_SOURce_CURRent_VRANGe = ":SOURce:CURRent:VRANGe?"
+    SET_SOURce_CURRent_SLEW_BOTH = ":SOURce:CURRent:SLEW:BOTh {value}"
+    SET_SOURce_CURRent_SLEW_POSitive = ":SOURce:CURRent:SLEW:POSitive {value}"
+    GET_SOURce_CURRent_SLEW_POSitive = ":SOURce:CURRent:SLEW:POSitive?"
+    SET_SOURce_CURRent_SLEW_NEGative = ":SOURce:CURRent:SLEW:NEGative {value}"
+    GET_SOURce_CURRent_SLEW_NEGative = ":SOURce:CURRent:SLEW:NEGative?"
+    SET_SOURce_CURRent_TRANSient_MODE = ":SOURce:CURRent:TRANSient:MODE {value}"
+    GET_SOURce_CURRent_TRANSient_MODE = ":SOURce:CURRent:TRANSient:MODE?"
+    SET_SOURce_CURRent_TRANSient_IRANGe = ":SOURce:CURRent:TRANSient:IRANGe {value}"
+    GET_SOURce_CURRent_TRANSient_IRANGe = ":SOURce:CURRent:TRANSient:IRANGe?"
+    SET_SOURce_CURRent_TRANSient_VRANGe = ":SOURce:CURRent:TRANSient:VRANGe {value}"
+    GET_SOURce_CURRent_TRANSient_VRANGe = ":SOURce:CURRent:TRANSient:VRANGe?"
+    SET_SOURce_CURRent_TRANSient_ALEVel = ":SOURce:CURRent:TRANSient:ALEVel {value}"
+    GET_SOURce_CURRent_TRANSient_ALEVel = ":SOURce:CURRent:TRANSient:ALEVel?"
+    SET_SOURce_CURRent_TRANSient_BLEVel = ":SOURce:CURRent:TRANSient:BLEVel {value}"
+    GET_SOURce_CURRent_TRANSient_BLEVel = ":SOURce:CURRent:TRANSient:BLEVel?"
+    SET_SOURce_CURRent_TRANSient_AWIDth = ":SOURce:CURRent:TRANSient:AWIDth {value}"
+    GET_SOURce_CURRent_TRANSient_AWIDth = ":SOURce:CURRent:TRANSient:AWIDth?"
+    SET_SOURce_CURRent_TRANSient_BWIDth = ":SOURce:CURRent:TRANSient:BWIDth {value}"
+    GET_SOURce_CURRent_TRANSient_BWIDth = ":SOURce:CURRent:TRANSient:BWIDth?"
+    SET_SOURce_CURRent_TRANSient_SLEW_POSitive = ":SOURce:CURRent:TRANSient:SLEW:POSitive {value}"
+    GET_SOURce_CURRent_TRANSient_SLEW_POSitive = ":SOURce:CURRent:TRANSient:SLEW:POSitive?"
+    SET_SOURce_CURRent_TRANSient_SLEW_NEGative = ":SOURce:CURRent:TRANSient:SLEW:NEGative {value}"
+    GET_SOURce_CURRent_TRANSient_SLEW_NEGative = ":SOURce:CURRent:TRANSient:SLEW:NEGative?"
+
+class SOURce_VOLTage(Enum):
+    SET_SOURce_VOLTage_LEVel_IMMediate = ":SOURce:VOLTage:LEVel:IMMediate {value}"
+    GET_SOURce_VOLTage_LEVel_IMMediate = ":SOURce:VOLTage:LEVel:IMMediate?"
+    SET_SOURce_VOLTage_IRANGe = ":SOURce:VOLTage:IRANGe {value}"
+    GET_SOURce_VOLTage_IRANGe = ":SOURce:VOLTage:IRANGe?"
+    SET_SOURce_VOLTage_VRANGe = ":SOURce:VOLTage:VRANGe {value}"
+    GET_SOURce_VOLTage_VRANGe = ":SOURce:VOLTage:VRANGe?"
+    SET_SOURce_VOLtage_TRANSient_MODE = ":SOURce:VOLTage:TRANSient:MODE {value}"
+    GET_SOURce_VOLtage_TRANSient_MODE = ":SOURce:VOLTage:TRANSient:MODE?"
+    SET_SOURce_VOLTage_TRANSient_IRANGe = ":SOURce:VOLTage:TRANSient:IRANGe {value}"
+    GET_SOURce_VOLTage_TRANSient_IRANGe = ":SOURce:VOLTage:TRANSient:IRANGe?"
+    SET_SOURce_VOLTage_TRANSient_VRANGe = ":SOURce:VOLTage:TRANSient:VRANGe {value}"
+    GET_SOURce_VOLTage_TRANSient_VRANGe = ":SOURce:VOLTage:TRANSient:VRANGe?"
+    SET_SOURce_VOLTage_TRANSient_ALEVel = ":SOURce:VOLTage:TRANSient:ALEVel {value}"
+    GET_SOURce_VOLTage_TRANSient_ALEVel = ":SOURce:VOLTage:TRANSient:ALEVel?"
+    SET_SOURce_VOLTage_TRANSient_BLEVel = ":SOURce:VOLTage:TRANSient:BLEVel {value}"
+    GET_SOURce_VOLTage_TRANSient_BLEVel = ":SOURce:VOLTage:TRANSient:BLEVel?"
+    SET_SOURce_VOLTage_TRANSient_AWIDth = ":SOURce:VOLTage:TRANSient:AWIDth {value}"
+    GET_SOURce_VOLTage_TRANSient_AWIDth = ":SOURce:VOLTage:TRANSient:AWIDth?"
+    SET_SOURce_VOLTage_TRANSient_BWIDth = ":SOURce:VOLTage:TRANSient:BWIDth {value}"
+    GET_SOURce_VOLTage_TRANSient_BWIDth = ":SOURce:VOLTage:TRANSient:BWIDth?"
+
+class SOURce_POWer(Enum):
+    SET_SOURce_POWer_LEVel_IMMediate = ":SOURce:POWer:LEVel:IMMediate {value}"
+    GET_SOURce_POWer_LEVel_IMMediate = ":SOURce:POWer:LEVel:IMMediate?"
+    SET_SOURce_POWer_IRANGe = ":SOURce:POWer:IRANGe {value}"
+    GET_SOURce_POWer_IRANGe = ":SOURce:POWer:IRANGe?"
+    SET_SOURce_POWer_VRANGe = ":SOURce:POWer:VRANGe {value}"
+    GET_SOURce_POWer_VRANGe = ":SOURce:POWer:VRANGe?"
+    SET_SOURce_POWer_TRANSient_MODE = ":SOURce:POWer:TRANSient:MODE {value}"
+    GET_SOURce_POWer_TRANSient_MODE = ":SOURce:POWer:TRANSient:MODE?"
+    SET_SOURce_POWer_TRANSient_IRANGe = ":SOURce:POWer:TRANSient:IRANGe {value}"
+    GET_SOURce_POWer_TRANSient_IRANGe = ":SOURce:POWer:TRANSient:IRANGe?"
+    SET_SOURce_POWer_TRANSient_VRANGe = ":SOURce:POWer:TRANSient:VRANGe {value}"
+    GET_SOURce_POWer_TRANSient_VRANGe = ":SOURce:POWer:TRANSient:VRANGe?"
+    SET_SOURce_POWer_TRANSient_ALEVel = ":SOURce:POWer:TRANSient:ALEVel {value}"
+    GET_SOURce_POWer_TRANSient_ALEVel = ":SOURce:POWer:TRANSient:ALEVel?"
+    SET_SOURce_POWer_TRANSient_BLEVel = ":SOURce:POWer:TRANSient:BLEVel {value}"
+    GET_SOURce_POWer_TRANSient_BLEVel = ":SOURce:POWer:TRANSient:BLEVel?"
+    SET_SOURce_POWer_TRANSient_AWIDth = ":SOURce:POWer:TRANSient:AWIDth {value}"
+    GET_SOURce_POWer_TRANSient_AWIDth = ":SOURce:POWer:TRANSient:AWIDth?"
+    SET_SOURce_POWer_TRANSient_BWIDth = ":SOURce:POWer:TRANSient:BWIDth {value}"
+    GET_SOURce_POWer_TRANSient_BWIDth = ":SOURce:POWer:TRANSient:BWIDth?"
+
+class SOURce_RESistance(Enum):
+    SET_SOURce_RESistance_IMMediate = ":SOURce:RESistance:IMMediate {value}"
+    GET_SOURce_RESistance_IMMediate = ":SOURce:RESistance:IMMediate?"
+    SET_SOURce_RESistance_IRANGe = ":SOURce:RESistance:IRANGe {value}"
+    GET_SOURce_RESistance_IRANGe = ":SOURce:RESistance:IRANGe?"
+    SET_SOURce_RESistance_VRANGe = ":SOURce:RESistance:VRANGe {value}"
+    GET_SOURce_RESistance_VRANGe = ":SOURce:RESistance:VRANGe?"
+    SET_SOURce_RESistance_RRANGe = ":SOURce:RESistance:RRANGe {value}"
+    GET_SOURce_RESistance_RRANGe = ":SOURce:RESistance:RRANGe?"
+    SET_SOURce_RESistance_TRANSient_MODE = ":SOURce:RESistance:TRANSient:MODE {value}"
+    GET_SOURce_RESistance_TRANSient_MODE = ":SOURce:RESistance:TRANSient:MODE?"
+    SET_SOURce_RESistance_TRANSient_IRANGe = ":SOURce:RESistance:TRANSient:IRANGe {value}"
+    GET_SOURce_RESistance_TRANSient_IRANGe = ":SOURce:RESistance:TRANSient:IRANGe?"
+    SET_SOURce_RESistance_TRANSient_VRANGe = ":SOURce:RESistance:TRANSient:VRANGe {value}"
+    GET_SOURce_RESistance_TRANSient_VRANGe = ":SOURce:RESistance:TRANSient:VRANGe?"
+    SET_SOURce_RESistance_TRANSient_RRANGe = ":SOURce:RESistance:TRANSient:RRANGe {value}"
+    GET_SOURce_RESistance_TRANSient_RRANGe = ":SOURce:RESistance:TRANSient:RRANGe?"
+    SET_SOURce_RESistance_TRANSient_ALEVel = ":SOURce:RESistance:TRANSient:ALEVel {value}"
+    GET_SOURce_RESistance_TRANSient_ALEVel = ":SOURce:RESistance:TRANSient:ALEVel?"
+    SET_SOURce_RESistance_TRANSient_BLEVel = ":SOURce:RESistance:TRANSient:BLEVel {value}"
+    GET_SOURce_RESistance_TRANSient_BLEVel = ":SOURce:RESistance:TRANSient:BLEVel?"
+    SET_SOURce_RESistance_TRANSient_AWIDth = ":SOURce:RESistance:TRANSient:AWIDth {value}"
+    GET_SOURce_RESistance_TRANSient_AWIDth = ":SOURce:RESistance:TRANSient:AWIDth?"
+    SET_SOURce_RESistance_TRANSient_BWIDth = ":SOURce:RESistance:TRANSient:BWIDth {value}"
+    GET_SOURce_RESistance_TRANSient_BWIDth = ":SOURce:RESistance:TRANSient:BWIDth?"
+
+class SOURce_LED(Enum):
+    SET_SOURce_LED_IRANGe = ":SOURce:LED:IRANGe {value}"
+    GET_SOURce_LED_IRANGe = ":SOURce:LED:IRANGe?"
+    SET_SOURce_LED_VRANGe = ":SOURce:LED:VRANGe {value}"
+    GET_SOURce_LED_VRANGe = ":SOURce:LED:VRANGe?"
+    SET_SOURce_LED_VOLTage = ":SOURce:LED:VOLTage {value}"
+    GET_SOURce_LED_VOLTage = ":SOURce:LED:VOLTage?"
+    SET_SOURce_LED_CURRent = ":SOURce:LED:CURRent {value}"
+    GET_SOURce_LED_CURRent = ":SOURce:LED:CURRent?"
+    SET_SOURce_LED_RCOnfiguration = ":SOURce:LED:RCOnfiguration {value}"
+    GET_SOURce_LED_RCOnfiguration = ":SOURce:LED:RCOnfiguration?"
+
+class SOURce_BATTery(Enum):
+    SET_SOURce_BATTery_FUNC = ":SOURce:BATTery:FUNC"
+    GET_SOURce_BATTery_FUNC = ":SOURce:BATTery:FUNC?"
+    SET_SOURce_BATTery_MODE = ":SOURce:BATTery:MODE {value}"
+    GET_SOURce_BATTery_MODE = ":SOURce:BATTery:MODE?"
+    SET_SOURce_BATTery_IRANGe = ":SOURce:BATTery:IRANGe {value}"
+    GET_SOURce_BATTery_IRANGe = ":SOURce:BATTery:IRANGe?"
+    SET_SOURce_BATTery_VRANGe = ":SOURce:BATTery:VRANGe {value}"
+    GET_SOURce_BATTery_VRANGe = ":SOURce:BATTery:VRANGe?"
+    SET_SOURce_BATTery_RRANGe = ":SOURce:BATTery:RRANGe {value}"
+    GET_SOURce_BATTery_RRANGe = ":SOURce:BATTery:RRANGe?"
+    SET_SOURce_BATTery_LEVel = ":SOURce:BATTery:LEVel {value}"
+    GET_SOURce_BATTery_LEVel = ":SOURce:BATTery:LEVel?"
+    SET_SOURce_BATTery_VOLTage = ":SOURce:BATTery:VOLTage {value}"
+    GET_SOURce_BATTery_VOLTage = ":SOURce:BATTery:VOLTage?"
+    SET_SOURce_BATTery_CAPability = ":SOURce:BATTery:CAPability {value}"
+    GET_SOURce_BATTery_CAPability = ":SOURce:BATTery:CAPability?"
+    SET_SOURce_BATTery_TIMer = ":SOURce:BATTery:TIMer {value}"
+    GET_SOURce_BATTery_TIMer = ":SOURce:BATTery:TIMer?"
+    SET_SOURce_BATTery_VOLTage_STATe = ":SOURce:BATTery:VOLTage:STATe {value}"
+    GET_SOURce_BATTery_VOLTage_STATe = ":SOURce:BATTery:VOLTage:STATe?"
+    SET_SOURce_BATTery_CAPability_STATe = ":SOURce:BATTery:CAPability:STATe {value}"
+    GET_SOURce_BATTery_CAPability_STATe = ":SOURce:BATTery:CAPability:STATe?"
+    SET_SOURce_BATTery_TIMer_STATe = ":SOURce:BATTery:TIMer:STATe {value}"
+    GET_SOURce_BATTery_TIMer_STATe = ":SOURce:BATTery:TIMer:STATe?"
+    GET_SOURce_BATTery_DISCHArge_CAPability = ":SOURce:BATTery:DISCHArge:CAPability?"
+    GET_SOURce_BATTery_DISCHArge_TIMer = ":SOURce:BATTery:DISCHArge:TIMer?"
+    SET_SOURce_BATTery_DCR_TIME1 = ":SOURce:BATTery:DCR:TIME1 {value}"
+    GET_SOURce_BATTery_DCR_TIME1 = ":SOURce:BATTery:DCR:TIME1?"
+    SET_SOURce_BATTery_DCR_TIME2 = ":SOURce:BATTery:DCR:TIME2 {value}"
+    GET_SOURce_BATTery_DCR_TIME2 = ":SOURce:BATTery:DCR:TIME2?"
+    SET_SOURce_BATTery_DCR_CURRent1 = ":SOURce:BATTery:DCR:CURRent1 {value}"
+    GET_SOURce_BATTery_DCR_CURRent1 = ":SOURce:BATTery:DCR:CURRent1?"
+    SET_SOURce_BATTery_DCR_CURRent2 = ":SOURce:BATTery:DCR:CURRent2 {value}"
+    GET_SOURce_BATTery_DCR_CURRent2 = ":SOURce:BATTery:DCR:CURRent2?"
+    GET_SOURce_BATTery_DCR_RESult = ":SOURce:BATTery:DCR:RESult?"
+
+class SOURce_LIST(Enum):
+    SET_SOURce_LIST_MODE = ":SOURce:LIST:MODE {value}"
+    GET_SOURce_LIST_MODE = ":SOURce:LIST:MODE?"
+    SET_SOURce_LIST_IRANGe = ":SOURce:LIST:IRANGe {value}"
+    GET_SOURce_LIST_IRANGe = ":SOURce:LIST:IRANGe?"
+    SET_SOURce_LIST_VRANGe = ":SOURce:LIST:VRANGe {value}"
+    GET_SOURce_LIST_VRANGe = ":SOURce:LIST:VRANGe?"
+    SET_SOURce_LIST_RRANGe = ":SOURce:LIST:RRANGe {value}"
+    GET_SOURce_LIST_RRANGe = ":SOURce:LIST:RRANGe?"
+    SET_SOURce_LIST_COUNt = ":SOURce:LIST:COUNt {value}"
+    GET_SOURce_LIST_COUNt = ":SOURce:LIST:COUNt?"
+    SET_SOURce_LIST_STEP = ":SOURce:LIST:STEP {value}"
+    GET_SOURce_LIST_STEP = ":SOURce:LIST:STEP?"
+    SET_SOURce_LIST_SLEW_BOTH = ":SOURce:LIST:SLEW:BOTH {step},{value}"
+    GET_SOURce_LIST_SLEW_BOTH = ":SOURce:LIST:SLEW:BOTH?"
+    SET_SOURce_LIST_WIDth = ":SOURce:LIST:WIDTH {step},{value}"
+    GET_SOURce_LIST_WIDth = ":SOURce:LIST:WIDTH?"
+    SET_SOURce_LIST_STATe_ON = ":SOURce:LIST:STATe:ON"
+    GET_SOURce_LIST_STATe_ON = ":SOURce:LIST:STATe?"
+
+class SOURce_OCPT(Enum):
+    SET_SOURce_OCP_FUNC = ":SOURce:OCP:FUNC"
+    GET_SOURce_OCP_FUNC = ":SOURce:OCP:FUNC?"
+    SET_SOURce_IRANGe = ":SOURce:OCP:IRANGe {value}"
+    GET_SOURce_IRANGe = ":SOURce:OCP:IRANGe?"
+    SET_SOURce_VRANGe = ":SOURce:OCP:VRANGe {value}"
+    GET_SOURce_VRANGe = ":SOURce:OCP:VRANGe?"
+    SET_SOURce_OCP_START = ":SOURce:OCP:START {value}"
+    GET_SOURce_OCP_START = ":SOURce:OCP:START?"
+    SET_SOURce_OCP_STEP = ":SOURce:OCP:STEP {value}"
+    GET_SOURce_OCP_STEP = ":SOURce:OCP:STEP?"
+    SET_SOURce_OCP_STEP_DELay = ":SOURce:OCP:STEP:DELay {value}"
+    GET_SOURce_OCP_STEP_DELay = ":SOURce:OCP:STEP:DELay?"
+    SET_SOURce_OCP_END = ":SOURce:OCP:END {value}"
+    GET_SOURce_OCP_END = ":SOURce:OCP:END?"
+    SET_SOURce_OCP_MIN = ":SOURce:OCP:MIN {value}"
+    GET_SOURce_OCP_MIN = ":SOURce:OCP:MIN?"
+    SET_SOURce_OCP_MAX = ":SOURce:OCP:MAX {value}"
+    GET_SOURce_OCP_MAX = ":SOURce:OCP:MAX?"
+    SET_SOURce_OCP_VOLTage = ":SOURce:OCP:VOLTage {value}"
+    GET_SOURce_OCP_VOLTage = ":SOURce:OCP:VOLTage?"
+
+class SOURce_OPPT(Enum):
+    SET_SOURce_OPP_FUNC = ":SOURce:OPP:FUNC"
+    GET_SOURce_OPP_FUNC = ":SOURce:OPP:FUNC?"
+    SET_SOURce_IRANGe = ":SOURce:OPP:IRANGe {value}"
+    GET_SOURce_IRANGe = ":SOURce:OPP:IRANGe?"
+    SET_SOURce_VRANGe = ":SOURce:OPP:VRANGe {value}"
+    GET_SOURce_VRANGe = ":SOURce:OPP:VRANGe?"
+    SET_SOURce_OPP_START = ":SOURce:OPP:START {value}"
+    GET_SOURce_OPP_START = ":SOURce:OPP:START?"
+    SET_SOURce_OPP_STEP = ":SOURce:OPP:STEP {value}"
+    GET_SOURce_OPP_STEP = ":SOURce:OPP:STEP?"
+    SET_SOURce_OPP_STEP_DELay = ":SOURce:OPP:STEP:DELay {value}"
+    GET_SOURce_OPP_STEP_DELay = ":SOURce:OPP:STEP:DELay?"
+    SET_SOURce_OPP_END = ":SOURce:OPP:END {value}"
+    GET_SOURce_OPP_END = ":SOURce:OPP:END?"
+    SET_SOURce_OPP_MIN = ":SOURce:OPP:MIN {value}"
+    GET_SOURce_OPP_MIN = ":SOURce:OPP:MIN?"
+    SET_SOURce_OPP_MAX = ":SOURce:OPP:MAX {value}"
+    GET_SOURce_OPP_MAX = ":SOURce:OPP:MAX?"
+    SET_SOURce_OPP_VOLTage = ":SOURce:OPP:VOLTage {value}"
+    GET_SOURce_OPP_VOLTage = ":SOURce:OPP:VOLTage?"
+
+class SOURce_PROGram(Enum):
+    SET_SOURce_PROGram_STEP = ":SOURce:PROGram:STEP {value}"
+    GET_SOURce_PROGram_STEP = ":SOURce:PROGram:STEP?"
+    SET_SOURce_PROGram_MODE = ":SOURce:PROGram:MODE {value}"
+    GET_SOURce_PROGram_MODE = ":SOURce:PROGram:MODE?"
+    SET_SOURce_PROGram_IRANGe = ":SOURce:PROGram:IRANGe {step},{value}"
+    GET_SOURce_PROGram_IRANGe = ":SOURce:PROGram:IRANGe? {step}"
+    SET_SOURce_PROGram_VRANGe = ":SOURce:PROGram:VRANGe {step},{value}"
+    GET_SOURce_PROGram_VRANGe = ":SOURce:PROGram:VRANGe? {step}"
+    SET_SOURce_PROGram_RRANGe = ":SOURce:PROGram:RRANGe {step},{value}"
+    GET_SOURce_PROGram_RRANGe = ":SOURce:PROGram:RRANGe? {step}"
+    SET_SOURce_PROGram_SHORt = ":SOURce:PROGram:SHORt {step},{value}"
+    GET_SOURce_PROGram_SHORt = ":SOURce:PROGram:SHORt? {step}"
+    SET_SOURce_PROGram_PAUSE = ":SOURce:PROGram:PAUSE {step},{value}"
+    GET_SOURce_PROGram_PAUSE = ":SOURce:PROGram:PAUSE? {step}"
+    SET_SOURce_PROGram_TIME_ON = ":SOURce:PROGram:TIME:ON {step},{value}"
+    GET_SOURce_PROGram_TIME_ON = ":SOURce:PROGram:TIME:ON? {step}"
+    SET_SOURce_PROGram_TIME_OFF = ":SOURce:PROGram:TIME:OFF {step},{value}"
+    GET_SOURce_PROGram_TIME_OFF = ":SOURce:PROGram:TIME:OFF? {step}"
+    SET_SOURce_PROGram_TIME_DELAY = ":SOURce:PROGram:TIME:DELAY {step},{value}"
+    GET_SOURce_PROGram_TIME_DELAY = ":SOURce:PROGram:TIME:DELAY? {step}"
+    SET_SOURce_PROGram_MIN = ":SOURce:PROGram:MIN {step},{value}"
+    GET_SOURce_PROGram_MIN = ":SOURce:PROGram:MIN? {step}"
+    SET_SOURce_PROGram_MAX = ":SOURce:PROGram:MAX {step},{value}"
+    GET_SOURce_PROGram_MAX = ":SOURce:PROGram:MAX? {step}"
+    SET_SOURce_PROGram_LEVel = ":SOURce:PROGram:LEVel {step},{value}"
+    GET_SOURce_PROGram_LEVel = ":SOURce:PROGram:LEVel? {step}"
+    SET_SOURce_PROGram_LED_CURRent = ":SOURce:PROGram:LED:CURRent {step},{value}"
+    GET_SOURce_PROGram_LED_CURRent = ":SOURce:PROGram:LED:CURRent? {step}"
+    SET_SOURce_PROGram_LED_RCOnf = ":SOURce:PROGram:LED:RCOnf {step},{value}"
+    GET_SOURce_PROGram_LED_RCOnf = ":SOURce:PROGram:LED:RCOnf? {step}"
+    SET_SOURce_PROGram_STATe_ON = ":SOURce:PROGram:STATe:ON"
+    GET_SOURce_PROGram_STATe = ":SOURce:PROGram:STATe?"
+    GET_SOURce_PROGram_TEST = ":SOURce:PROGram:TEST? {step}"
+
+class SOURce_WAVE(Enum):
+    SET_SOURce_WAVE_TIME = ":SOURce:WAVE:TIME {value}"
+    GET_SOURce_WAVE_TIME = ":SOURce:WAVE:TIME?"
+    SET_SOURce_WAVE_MODE = ":SOURce:WAVE:MODE {value}"
+    GET_SOURce_WAVE_MODE = ":SOURce:WAVE:MODE?"
+    SET_SOURce_WAVE_PAUSE = ":SOURce:WAVE:PAUSE {value}"
+    GET_SOURce_WAVE_PAUSE = ":SOURce:WAVE:PAUSE?"
+    SET_SOURce_WAVE_DISPlay = ":SOURce:WAVE:DISPlay {value}"
+    GET_SOURce_WAVE_DISPlay = ":SOURce:WAVE:DISPlay?"
+
+class SOURce_UTILity(Enum):
+    SET_SOURce_VOLTage_LEVel_ON = ":SOURce:VOLTage:LEVel:ON {value}"
+    GET_SOURce_VOLTage_LEVel_ON = ":SOURce:VOLTage:LEVel:ON?"
+    SET_SOURce_VOLTage_LATCh_STATE = ":SOURce:VOLTage:LATCh:STATE {value}"
+    GET_SOURce_VOLTage_LATCh_STATE = ":SOURce:VOLTage:LATCh:STATE?"
+    SET_SOURce_EXTernal_INPut_STATe = ":SOURce:EXTernal:INPut:STATe {value}"
+    GET_SOURce_EXTernal_INPut_STATe = ":SOURce:EXTernal:INPut:STATe?"
+    SET_SOURce_CURRent_PROTection_STATe = ":SOURce:CURRent:PROTection:STATe {value}"
+    GET_SOURce_CURRent_PROTection_STATe = ":SOURce:CURRent:PROTection:STATe?"
+    SET_SOURce_CURent_PROTection_LEVel = ":SOURce:CURrent:PROTection:LEVel {value}"
+    GET_SOURce_CURent_PROTection_LEVel = ":SOURce:CURrent:PROTection:LEVel?"
+    SET_SOURce_CURent_PROTection_DELay = ":SOURce:CURrent:PROTection:DELay {value}"
+    GET_SOURce_CURent_PROTection_DELay = ":SOURce:CURrent:PROTection:DELay?"
+    SET_SOURce_POWer_PROTection_STATe = ":SOURce:POWer:PROTection:STATe {value}"
+    GET_SOURce_POWer_PROTection_STATe = ":SOURce:POWer:PROTection:STATe?"
+    SET_SOURce_POWer_PROTection_LEVel = ":SOURce:POWer:PROTection:LEVel {value}"
+    GET_SOURce_POWer_PROTection_LEVel = ":SOURce:POWer:PROTection:LEVel?"
+    SET_SOURce_POWer_PROTection_DELay = ":SOURce:POWer:PROTection:DELay {value}"
+    GET_SOURce_POWer_PROTection_DELay = ":SOURce:POWer:PROTection:DELay?"
+
+class SUBSystem(Enum):
+    SET_SYSTem_SENSe_STATe = ":SYSTem:SENSe:STATe {value}"
+    GET_SYSTem_SENSe_STATe = ":SYSTem:SENSe:STATe?"
+    SET_SYSTem_IMONItor_STATe = ":SYSTem:IMONItor:STATe {value}"
+    GET_SYSTem_IMONItor_STATe = ":SYSTem:IMONItor:STATe?"
+    SET_SYSTem_VMONItor_STATe = ":SYSTem:VMONItor:STATe {value}"
+    GET_SYSTem_VMONItor_STATe = ":SYSTem:VMONItor:STATe?"
+    SET_STOP_ON_FAIL_STATe = ":STOP:ON:FAIL:STATe {value}"
+    GET_STOP_ON_FAIL_STATe = ":STOP:ON:FAIL:STATe?"
+    SET_TRIGger = "*TRG"
+    SET_TRIGger_SOURce = "TRIGger:SOURce {value}"
+    GET_TRIGger_SOURce = "TRIGger:SOURce?"
+    SET_SENSe_AVERage_COUNT = ":SENSe:AVERage:COUNT {value}"
+    GET_SENSe = ":SENSe:AVERage:COUNT?"
+    SET_EXT_MODE = ":EXT:MODE {value}"
+    GET_EXT_MODE = ":EXT:MODE?"
+    SET_EXT_IRANGe = ":EXT:IRANGe {value}"
+    GET_EXT_IRANGe = ":EXT:IRANGe?"
+    SET_EXT_VRANGe = ":EXT:VRANGe {value}"
+    GET_EXT_VRANGe = ":EXT:VRANGe?"
+    SET_EXT_RRANGe = ":EXT:RRANGe {value}"
+    SET_TIME_TEST_STATe = ":TIMe:TEST:STATe {value}"
+    GET_TIME_TEST_STATe = ":TIMe:TEST:STATe?"
+    SET_TIME_TEST_VOLTage_LOW = ":TIMe:TEST:VOLTage:LOW {value}"
+    GET_TIME_TEST_VOLTage_LOW = ":TIMe:TEST:VOLTage:LOW?"
+    SET_TIME_TEST_VOLTage_HIGH = ":TIMe:TEST:VOLTage:HIGH {value}"
+    GET_TIME_TEST_VOLTage_HIGH = ":TIMe:TEST:VOLTage:HIGH?"
+    GET_TIME_TEST_RISE = ":TIMe:TEST:RISE?"
+    GET_TIME_TEST_FALL = ":TIMe:TEST:FALL?"
+
+class LAN_INTerface(Enum):
+    GET_LAN_LINK = ":LAN:LINK?"
+    SET_DHCP = ":LAN:DHCP {value}"
+    GET_DHCP = ":LAN:DHCP?"
+    SET_IPADdress = ":LAN:IPADDress {value}"
+    GET_IPADdress = ":LAN:IPADDress?"
+    SET_SMASK = ":LAN:SMASK {value}"
+    GET_SMASK = ":LAN:SMASK?"
+    SET_LAN_GATeway = ":LAN:GATeway {value}"
+    GET_LAN_GATeway = ":LAN:GATeway?"
+    GET_LAN_MACADDress = ":LAN:MACADDress?"
+
+class SDL1020X(VISA_INSTRUMENT):
+    def __init__(self, visa_port=None, connection_type=None):
+        super().__init__(visa_port, connection_type)
+        self.soft_delay = 0.3
+
+    def device_validator(self,command, result):
+        res = self.query(command=command)
+        a = self.strip_trailing_zeros(result)
+        if res == str(a):
+            print("Success")
+            return True
+        else:
+            print(res)
+            print(type(res))
+            raise ValueError(f"Can not set the device to {result} MODE")
+
+    @staticmethod
+    def strip_trailing_zeros(n):
+        pattern = r'^-?\d+(\.\d+)?$'
+        n = str(n)
+        if bool(re.match(pattern, n)):
+            n = float(n)
+            d = Decimal(str(n)).normalize()
+            if d == d.to_integral():
+                return int(d)
+            return float(d)
+        else:
+            return n
+
+if __name__ == '__main__':
+    scanner = PyVISAScanner()
+    # scanner.scan_instruments()
+    connect_type, port = scanner.scan_for_instruments(expected_id="SDL1020X")
+
+    instr = SDL1020X(visa_port=port, connection_type=connect_type)
+    instr.controller.close()

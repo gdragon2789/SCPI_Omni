@@ -21,7 +21,10 @@ from controller.TCPIP import TCPIP_Controller
 
 class PyVISAScanner:
     def __init__(self):
-        self.__resource_manager = pyvisa.ResourceManager('@py')
+        if platform.system() == "Windows":
+            self.__resource_manager = pyvisa.ResourceManager()
+        else:
+            self.__resource_manager = pyvisa.ResourceManager("@py")
         self.__resource_store = self.__resource_manager.list_resources()
         self.__hardware_store = []
         self.__scanner_initial()
@@ -269,7 +272,7 @@ if __name__ == "__main__":
     scanner = PyVISAScanner()
     scanner.list_device()
     scanner.scan_instruments()
-    scanner.scan_for_instruments(expected_id="WPS300S-15005")
+    # scanner.scan_for_instruments(expected_id="WPS300S-15005")
     # For WPS300S-15005 there are a bug on connect and disconnect,
     # it requires a delay long time to response,
     # so I increase the time after close the connection to 0.5s

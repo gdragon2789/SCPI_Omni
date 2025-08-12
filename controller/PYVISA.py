@@ -1,5 +1,5 @@
 import time
-
+import platform
 import pyvisa
 
 
@@ -8,7 +8,10 @@ class PYVISA_Controller:
                  visa_port,
                  debug=False):
         self.visa_port = visa_port
-        self._resource_manager = pyvisa.ResourceManager("@py")
+        if platform.system() == "Windows":
+            self._resource_manager = pyvisa.ResourceManager()
+        else:
+            self._resource_manager = pyvisa.ResourceManager("@py")
         self._connection = self._resource_manager.open_resource(resource_name=self.visa_port)
         self._idn = None
         self.debug = debug
