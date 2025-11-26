@@ -161,7 +161,7 @@ class BUFFER_ELEMENTS(Enum):
     EXTRa = "EXTRa"
     EXTRAFORMatted = "EXTRAFORMatted"
     EXTRAUNIT = "EXTRAUNIT"
-    FORMatted: "FORMatted"
+    FORMatted = "FORMatted"
     FRACtional = "FRACtional"
     READing = "READing"
     RELative = "RELative"

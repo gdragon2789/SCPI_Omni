@@ -269,6 +269,7 @@ class PyVISAScanner:
 
 
 if __name__ == "__main__":
+    import time
     scanner = PyVISAScanner()
     scanner.list_device()
     scanner.scan_instruments()
