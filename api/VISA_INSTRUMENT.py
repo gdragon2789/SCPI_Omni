@@ -21,7 +21,7 @@ class VISA_INSTRUMENT:
 
     def __connect(self):
         if self.connection_type == "USB":
-            self.controller = PYVISA_Controller(visa_port=self.visa_port, debug=True)
+            self.controller = PYVISA_Controller(visa_port=self.visa_port, debug=False)
             self.timing = self.tcpip_timing_profile
             self.cc_cls()
 
@@ -31,7 +31,7 @@ class VISA_INSTRUMENT:
             self.cc_cls()
 
         elif self.connection_type == "Serial":
-            self.controller = SERIAL_Controller(port=self.visa_port, debug=True)
+            self.controller = SERIAL_Controller(port=self.visa_port, debug=False)
             self.timing = self.serial_timing_profile
             self.cc_cls()
 

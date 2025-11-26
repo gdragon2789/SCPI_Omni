@@ -113,21 +113,29 @@ class PyVISAScanner:
             "sn": "Unknown",
             "firmware_version": "Unknown",
         }
-        print(resource_string)
+        # print(resource_string)
         if resource_string is not None:
             components = resource_string.split(",")
+            if len(components) == 5:
+                dict_name["manufacturer"] = components[0]
+                dict_name["model"] = components[1]
+                dict_name["sn"] = components[2]
+                dict_name["firmware_version"] = components[3]
+                return dict_name
             if len(components) == 4:
                 dict_name["manufacturer"] = components[0]
                 dict_name["model"] = components[1]
                 dict_name["sn"] = components[2]
                 dict_name["firmware_version"] = components[3]
                 return dict_name
-            elif len(components) == 3:
+            if len(components) == 3:
                 dict_name["manufacturer"] = components[0]
                 dict_name["model"] = components[1]
                 dict_name["firmware_version"] = components[2]
                 return dict_name
-        return dict_name
+
+            raise ValueError("Invalid resource string format")
+        raise ValueError("Can not decompose the resource string")
 
     def scan_instruments_v0(self):
         """
