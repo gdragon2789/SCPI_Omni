@@ -57,7 +57,7 @@ class SERIAL_Controller:
 
                 if idn:
                     self._idn = idn
-                    print(f"Connected to {idn.strip()} at {baudrate} baud.")
+                    # print(f"Connected to {idn.strip()} at {baudrate} baud.")
                     return True
 
                 if self.debug:
